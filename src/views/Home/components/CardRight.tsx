@@ -4,16 +4,17 @@ import styled from 'styled-components'
 import CardInput from './CardInput'
 
 const StyledCardRight = styled.div`
-  min-height: 565px;
   padding: 24px;
   background: #111b1e;
   border: 1px solid #008037;
   border-radius: 12px;
-
+  ${({ theme }) => theme.mediaQueries.sm} {
+    min-height: 565px;
+  }
   .box_head {
     width: 100%;
-    height: 242px;
-    margin-bottom: 48px;
+    height: 160px;
+    margin-bottom: 24px;
     border-radius: 16px;
     background-image: url('/images/card_right_box_head_bg.png');
     background-size: cover;
@@ -21,11 +22,20 @@ const StyledCardRight = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+
+    ${({ theme }) => theme.mediaQueries.sm} {
+      height: 242px;
+      margin-bottom: 48px;
+    }
+
     img {
       width: 100%;
-      max-width: 184px;
+      max-width: 120px;
       height: auto;
       object-fit: contain;
+      ${({ theme }) => theme.mediaQueries.sm} {
+        max-width: 184px;
+      }
     }
   }
 `

@@ -26,7 +26,7 @@ const InnerBody = styled.div`
   width: 100%;
   max-width: 1290px;
   margin: 0 auto;
-  padding: 0 12px;
+  padding: 0 16px;
   ${({ theme }) => theme.mediaQueries.sm} {
     padding: 0 24px;
   }

@@ -5,15 +5,18 @@ import styled from 'styled-components'
 const StyledInput = styled.div`
   .input_value {
     width: 100%;
-    height: 68px;
+    height: 56px;
     background: #000000;
     border-radius: 12px;
 
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
-    padding: 5px 24px;
-
+    padding: 3px 12px;
+    ${({ theme }) => theme.mediaQueries.sm} {
+      height: 68px;
+      padding: 5px 24px;
+    }
     input {
       color: #ffffff;
       font-weight: 700;

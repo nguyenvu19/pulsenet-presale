@@ -6,7 +6,9 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import CardLeft, { CARD_ACTIVE } from './components/CardLeft'
 import CardRight from './components/CardRight'
 
-const StyledHome = styled.div``
+const StyledHome = styled.div`
+  padding-bottom: 32px;
+`
 
 const Home = () => {
   const { account } = useActiveWeb3React()
@@ -17,11 +19,11 @@ const Home = () => {
       <PageMeta />
       <StyledHome>
         <Row gutter={[30, 30]}>
-          <Col xs={24} sm={24} md={12}>
+          <Col xs={24} sm={24} md={24} lg={12}>
             <CardLeft active={viewCard} setViewCard={setViewCard} />
           </Col>
 
-          <Col xs={24} sm={24} md={12}>
+          <Col xs={24} sm={24} md={24} lg={12}>
             <CardRight account={account} />
           </Col>
         </Row>

@@ -4,20 +4,32 @@ import CardInput from './CardInput'
 import PercentSelectOption from './PercentSelectOption'
 
 const StyledCardLeft = styled.div`
-  min-height: 565px;
   background: #111b1e;
   border: 1px solid #008037;
   border-radius: 12px;
   position: relative;
+  ${({ theme }) => theme.mediaQueries.sm} {
+    min-height: 565px;
+  }
   .arrow_down {
+    width: fit-content;
+    height: fit-content;
+
     position: absolute;
-    right: -44px;
-    top: 50%;
-    transform: translateY(-50%);
+    left: 50%;
+    bottom: -44px;
+    transform: translateX(-50%) rotate(90deg);
     z-index: 10;
     img {
       width: 56px;
       height: 56px;
+    }
+
+    ${({ theme }) => theme.mediaQueries.lg} {
+      top: 50%;
+      left: unset;
+      right: -44px;
+      transform: translateY(-50%);
     }
   }
 `
@@ -144,24 +156,24 @@ const CardLeft = ({ active, setViewCard }: Props) => {
           )}
           <Flex className="content" alignItems="center">
             <Text fontSize="20px" fontWeight="600">
-              Lock & Load
+              Presale
             </Text>
           </Flex>
         </StyledButtonRight>
       </Flex>
       <CardContent>
-        <Flex p={['24px']} justifyContent="center" flexDirection="column" alignItems="center">
+        <Flex p={['0', , '24px']} justifyContent="center" flexDirection="column" alignItems="center">
           <Text fontSize="20px" bold mb="8px">
             Token Allocation
           </Text>
           <Flex alignItems="center" mb="24px">
             <BoxStyled>
               <img src="/images/token_bnb.png" alt="" />
-              <Text>1 BNB</Text>
+              <Text style={{ whiteSpace: 'nowrap' }}>1 BNB</Text>
             </BoxStyled>
             <div className="line_space" />
             <BoxStyled>
-              <Text>250,000 PULSE</Text>
+              <Text style={{ whiteSpace: 'nowrap' }}>250,000 PULSE</Text>
             </BoxStyled>
           </Flex>
           <Text fontSize="20px" bold mb="6px">

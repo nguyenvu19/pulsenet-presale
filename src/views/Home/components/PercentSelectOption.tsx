@@ -2,14 +2,16 @@ import { useState } from 'react'
 import styled from 'styled-components'
 
 const StyledPercentSelectOption = styled.div`
+  width: 100%;
   display: flex;
   flex-flow: row nowrap;
-  width: 100%;
-  gap: 20px;
+  gap: 14px;
+  ${({ theme }) => theme.mediaQueries.lg} {
+    gap: 20px;
+  }
   button {
-    padding: 12px 24px;
     width: 100%;
-    height: 43px;
+    height: 32px;
     background: #111b1e;
     box-shadow: -2px -2px 2px #1e3238, inset 0px -2px 2px #001015;
     border-radius: 12px;
@@ -26,6 +28,11 @@ const StyledPercentSelectOption = styled.div`
 
     &.active {
       background: #008037;
+    }
+
+    ${({ theme }) => theme.mediaQueries.lg} {
+      padding: 12px 24px;
+      height: 43px;
     }
   }
 `
