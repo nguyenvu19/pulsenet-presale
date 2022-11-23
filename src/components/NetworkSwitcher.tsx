@@ -1,5 +1,6 @@
 import { useTranslation } from '@pancakeswap/localization'
 import { ChainId, NATIVE } from '@pancakeswap/sdk'
+import styled from 'styled-components'
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -24,6 +25,36 @@ import { useRouter } from 'next/router'
 import { chains } from 'utils/wagmi'
 import { useNetwork } from 'wagmi'
 import { ChainLogo } from './Logo/ChainLogo'
+
+export const StyledUserMenu = styled(Flex)`
+  align-items: center;
+  cursor: pointer;
+  display: inline-flex;
+  width: 86px;
+  height: 44px;
+  padding: 4px 8px;
+  padding-left: 60px;
+  position: relative;
+
+  border-radius: 12px 0 0 12px;
+
+  background-image: url('/images/button-left.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: right center;
+  ${({ theme }) => theme.mediaQueries.sm} {
+    width: 288px;
+  }
+
+  img {
+    width: 38px;
+    height: 38px;
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+  }
+`
 
 const NetworkSelect = ({ switchNetwork, chainId }) => {
   const { t } = useTranslation()
@@ -136,34 +167,35 @@ export const NetworkSwitcher = () => {
     <Box ref={cannotChangeNetwork ? targetRef : null} height="100%">
       {cannotChangeNetwork && tooltipVisible && tooltip}
       <UserMenu
-        isLeft
-        mr="8px"
+        mr="-30px"
         placement="bottom"
-        variant={isLoading ? 'pending' : isWrongNetwork ? 'danger' : 'default'}
-        avatarSrc={`/images/chains/${chainId}.png`}
         disabled={cannotChangeNetwork}
-        text={
-          isLoading ? (
-            t('Requesting')
-          ) : isWrongNetwork ? (
-            t('Network')
-          ) : foundChain ? (
-            <>
-              <Box display={['none', null, null, null, null, 'block']}>{foundChain.name}</Box>
-              <Box display={['block', null, null, null, null, 'none']}>{symbol}</Box>
-            </>
-          ) : (
-            t('Select a Network')
-          )
-        }
-      >
-        {() =>
+        overlay={() =>
           isNotMatched ? (
             <WrongNetworkSelect switchNetwork={switchNetworkAsync} chainId={chainId} />
           ) : (
             <NetworkSelect switchNetwork={switchNetworkAsync} chainId={chainId} />
           )
         }
+      >
+        <StyledUserMenu>
+          <img src={`/images/chains/${chainId}.png`} alt="" />
+          {
+            // isLoading ? (
+            //   t('Requesting')
+            // ) :
+            isWrongNetwork ? (
+              t('Network')
+            ) : foundChain ? (
+              <>
+                <Box display={['none', null, 'block']}>{foundChain.name}</Box>
+                {/* <Box display={['block', null, null, null, null, 'none']}>{symbol}</Box> */}
+              </>
+            ) : (
+              t('Select a Network')
+            )
+          }
+        </StyledUserMenu>
       </UserMenu>
     </Box>
   )

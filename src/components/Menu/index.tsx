@@ -1,69 +1,51 @@
-import { useMemo } from 'react'
-import { useRouter } from 'next/router'
-import { NextLinkFromReactRouter } from 'components/NextLink'
-import { Menu as UikitMenu } from '@pancakeswap/uikit'
-import { useTranslation, languageList } from '@pancakeswap/localization'
-import PhishingWarningBanner from 'components/PhishingWarningBanner'
+import styled from 'styled-components'
+import { Flex, Logo } from '@pancakeswap/uikit'
 import { NetworkSwitcher } from 'components/NetworkSwitcher'
-import useTheme from 'hooks/useTheme'
-import { useCakeBusdPrice } from 'hooks/useBUSDPrice'
-import { usePhishingBannerManager } from 'state/user/hooks'
 import UserMenu from './UserMenu'
-import { useMenuItems } from './hooks/useMenuItems'
-import GlobalSettings from './GlobalSettings'
-import { getActiveMenuItem, getActiveSubMenuItem } from './utils'
-import { footerLinks } from './config/footerConfig'
-import { SettingsMode } from './GlobalSettings/types'
 
-const Menu = (props) => {
-  const { isDark, setTheme } = useTheme()
-  const cakePriceUsd = useCakeBusdPrice({ forceMainnet: true })
-  const { currentLanguage, setLanguage, t } = useTranslation()
-  const { pathname } = useRouter()
-  const [showPhishingWarningBanner] = usePhishingBannerManager()
+const MENU_HEIGHT = 156
 
-  const menuItems = useMenuItems()
+const WrapMenu = styled.div`
+  overflow: hidden;
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 
-  const activeMenuItem = getActiveMenuItem({ menuConfig: menuItems, pathname })
-  const activeSubMenuItem = getActiveSubMenuItem({ menuItem: activeMenuItem, pathname })
+    padding-left: 16px;
+    padding-right: 16px;
 
-  const toggleTheme = useMemo(() => {
-    return () => setTheme(isDark ? 'light' : 'dark')
-  }, [setTheme, isDark])
+    height: ${MENU_HEIGHT - 60}px;
+    ${({ theme }) => theme.mediaQueries.sm} {
+      height: ${MENU_HEIGHT}px;
+    }
+  }
+`
+const InnerBody = styled.div`
+  width: 100%;
+  max-width: 1290px;
+  margin: 0 auto;
+  padding: 0 12px;
+  ${({ theme }) => theme.mediaQueries.sm} {
+    padding: 0 24px;
+  }
+`
 
-  const getFooterLinks = useMemo(() => {
-    return footerLinks(t)
-  }, [t])
-
+const Menu = ({ children }) => {
   return (
-    <>
-      <UikitMenu
-        linkComponent={(linkProps) => {
-          return <NextLinkFromReactRouter to={linkProps.href} {...linkProps} prefetch={false} />
-        }}
-        rightSide={
-          <>
-            {/* <GlobalSettings mode={SettingsMode.GLOBAL} /> */}
-            <NetworkSwitcher />
-            <UserMenu />
-          </>
-        }
-        banner={showPhishingWarningBanner && typeof window !== 'undefined' && <PhishingWarningBanner />}
-        isDark={isDark}
-        toggleTheme={toggleTheme}
-        currentLang={currentLanguage.code}
-        langs={languageList}
-        setLang={setLanguage}
-        cakePriceUsd={cakePriceUsd}
-        links={menuItems}
-        subLinks={activeMenuItem?.hideSubNav || activeSubMenuItem?.hideSubNav ? [] : activeMenuItem?.items}
-        footerLinks={getFooterLinks}
-        activeItem={activeMenuItem?.href}
-        activeSubItem={activeSubMenuItem?.href}
-        buyCakeLabel={t('Buy CAKE')}
-        {...props}
-      />
-    </>
+    <WrapMenu>
+      <div className="nav">
+        <Flex>
+          <Logo isDark href="/" />
+        </Flex>
+        <Flex alignItems="center" height="100%">
+          <NetworkSwitcher />
+          <UserMenu />
+        </Flex>
+      </div>
+      <InnerBody>{children}</InnerBody>
+    </WrapMenu>
   )
 }
 

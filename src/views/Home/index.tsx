@@ -1,22 +1,31 @@
+import { useState } from 'react'
 import styled from 'styled-components'
-import PageSection from 'components/PageSection'
+import { Row, Col } from 'antd'
 import { PageMeta } from 'components/Layout/Page'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import CardLeft, { CARD_ACTIVE } from './components/CardLeft'
+import CardRight from './components/CardRight'
 
-const StyledHeroSection = styled(PageSection)`
-  padding-top: 16px;
+const StyledHome = styled.div``
 
-  ${({ theme }) => theme.mediaQueries.md} {
-    padding-top: 48px;
-  }
-`
+const Home = () => {
+  const { account } = useActiveWeb3React()
+  const [viewCard, setViewCard] = useState<CARD_ACTIVE>(CARD_ACTIVE.LOCK)
 
-const Home: React.FC<React.PropsWithChildren> = () => {
   return (
     <>
       <PageMeta />
-      <StyledHeroSection>
-        <button>a123123</button>
-      </StyledHeroSection>
+      <StyledHome>
+        <Row gutter={[30, 30]}>
+          <Col xs={24} sm={24} md={12}>
+            <CardLeft active={viewCard} setViewCard={setViewCard} />
+          </Col>
+
+          <Col xs={24} sm={24} md={12}>
+            <CardRight account={account} />
+          </Col>
+        </Row>
+      </StyledHome>
     </>
   )
 }

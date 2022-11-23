@@ -15,13 +15,12 @@ import ConnectWalletButton from 'components/ConnectWalletButton'
 import Trans from 'components/Trans'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import useAuth from 'hooks/useAuth'
-import { useActiveHandle } from 'hooks/useEagerConnect.bmp'
-import { useWallet } from 'hooks/useWallet'
 import NextLink from 'next/link'
 import { useEffect, useState } from 'react'
 import { useProfile } from 'state/profile/hooks'
 import { usePendingTransactions } from 'state/transactions/hooks'
 import { useAccount } from 'wagmi'
+import ConnectWallet from './ConnectWallet'
 import ProfileUserMenuItem from './ProfileUserMenuItem'
 import WalletModal, { WalletView } from './WalletModal'
 import WalletUserMenuItem from './WalletUserMenuItem'
@@ -89,36 +88,26 @@ const UserMenu = () => {
     )
   }
 
-  const handleActive = useActiveHandle()
-  const { onPresentConnectModal } = useWallet()
-
-  const handleClick = () => {
-    if (typeof __NEZHA_BRIDGE__ !== 'undefined') {
-      handleActive()
-    } else {
-      onPresentConnectModal()
-    }
-  }
-
-  if (isWrongNetwork) {
+  if (account) {
     return (
-      <UIKitUserMenu text={t('Network')} variant="danger">
-        {({ isOpen }) => (isOpen ? <UserMenuItems /> : null)}
+      <UIKitUserMenu overlay={({ isOpen }) => (isOpen ? <UserMenuItems /> : null)}>
+        <ConnectWallet account={account} />
       </UIKitUserMenu>
     )
   }
 
-  return (
-    <UIKitUserMenu
-      account={account}
-      avatarSrc={avatarSrc}
-      text={userMenuText}
-      variant={userMenuVariable}
-      onConnectWallet={handleClick}
-    >
-      {({ isOpen }) => (isOpen ? <UserMenuItems /> : null)}
-    </UIKitUserMenu>
-  )
+  if (isWrongNetwork) {
+    return (
+      <UIKitUserMenu
+        // text={t('Network')} variant="danger"
+        overlay={({ isOpen }) => (isOpen ? <UserMenuItems /> : null)}
+      >
+        <ConnectWallet account={account} />
+      </UIKitUserMenu>
+    )
+  }
+
+  return <ConnectWallet />
 }
 
 export default UserMenu

@@ -1,0 +1,203 @@
+import { Flex, Text, Box } from '@pancakeswap/uikit'
+import styled from 'styled-components'
+import CardInput from './CardInput'
+import PercentSelectOption from './PercentSelectOption'
+
+const StyledCardLeft = styled.div`
+  min-height: 565px;
+  background: #111b1e;
+  border: 1px solid #008037;
+  border-radius: 12px;
+  position: relative;
+  .arrow_down {
+    position: absolute;
+    right: -44px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    img {
+      width: 56px;
+      height: 56px;
+    }
+  }
+`
+const StyledButtonLeft = styled.div`
+  cursor: pointer;
+  width: 100%;
+  height: 44px;
+  position: relative;
+  margin: -1px 0 0 -1px;
+  margin-right: -14px;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+  & > .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    padding: 4px 14px;
+  }
+`
+const StyledButtonRight = styled.div`
+  cursor: pointer;
+  width: 100%;
+  height: 44px;
+  position: relative;
+  margin: -1px -1px 0 0;
+  margin-left: -14px;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+  & > .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    padding: 4px 8px;
+    padding-left: 68px;
+  }
+`
+const BoxStyled = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 8px;
+  min-width: 120px;
+  height: 24px;
+  background: #008037;
+  border-radius: 4px;
+
+  img {
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+  }
+`
+const CardContent = styled.div`
+  padding: 24px;
+  .line_space {
+    width: 16px;
+    height: 4px;
+    background: #008037;
+    margin: 0 16px;
+  }
+`
+const RightInputButton = styled.button`
+  /* Auto layout */
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 4px 12px;
+  gap: 8px;
+
+  width: 120px;
+  height: 36px;
+
+  background: #008037;
+  border-radius: 8px;
+  border: unset;
+  cursor: pointer;
+  img {
+    width: 28px;
+    height: 28px;
+  }
+`
+export enum CARD_ACTIVE {
+  LOCK,
+  PRESALE,
+}
+
+interface Props {
+  active?: CARD_ACTIVE
+  setViewCard: (p: CARD_ACTIVE) => void
+}
+
+const CardLeft = ({ active, setViewCard }: Props) => {
+  return (
+    <StyledCardLeft>
+      <Flex>
+        <StyledButtonLeft onClick={() => setViewCard(CARD_ACTIVE.LOCK)}>
+          {active === CARD_ACTIVE.LOCK ? (
+            <img src="/images/card_button_left_active.png" alt="" />
+          ) : (
+            <img src="/images/card_button_left.png" alt="" />
+          )}
+          <Flex className="content" alignItems="center">
+            <Text fontSize="20px" fontWeight="600">
+              Lock & Load
+            </Text>
+          </Flex>
+        </StyledButtonLeft>
+        <StyledButtonRight onClick={() => setViewCard(CARD_ACTIVE.PRESALE)}>
+          {active === CARD_ACTIVE.PRESALE ? (
+            <img src="/images/card_button_right_active.png" alt="" />
+          ) : (
+            <img src="/images/card_button_right.png" alt="" />
+          )}
+          <Flex className="content" alignItems="center">
+            <Text fontSize="20px" fontWeight="600">
+              Lock & Load
+            </Text>
+          </Flex>
+        </StyledButtonRight>
+      </Flex>
+      <CardContent>
+        <Flex p={['24px']} justifyContent="center" flexDirection="column" alignItems="center">
+          <Text fontSize="20px" bold mb="8px">
+            Token Allocation
+          </Text>
+          <Flex alignItems="center" mb="24px">
+            <BoxStyled>
+              <img src="/images/token_bnb.png" alt="" />
+              <Text>1 BNB</Text>
+            </BoxStyled>
+            <div className="line_space" />
+            <BoxStyled>
+              <Text>250,000 PULSE</Text>
+            </BoxStyled>
+          </Flex>
+          <Text fontSize="20px" bold mb="6px">
+            Vesting Plan
+          </Text>
+          <Text fontSize="14px" color="#D2D2DB" mb="4px">
+            6 Months - 50 %
+          </Text>
+          <Text fontSize="14px" color="#D2D2DB" mb="4px">
+            9 Months - 25 %
+          </Text>
+          <Text fontSize="14px" color="#D2D2DB" mb="4px">
+            12 Months - 25 %
+          </Text>
+        </Flex>
+        <Box mb="24px">
+          <CardInput
+            labelLeft="Payment"
+            labelRight="MAX: 04"
+            rightInput={
+              <RightInputButton>
+                <img src="/images/token_bnb.png" alt="" />
+                <Text>BNB</Text>
+              </RightInputButton>
+            }
+            placeholder="0.00"
+          />
+        </Box>
+
+        <PercentSelectOption />
+      </CardContent>
+      <div className="arrow_down">
+        <img src="/images/arrow_circle_down.png" alt="" />
+      </div>
+    </StyledCardLeft>
+  )
+}
+
+export default CardLeft
