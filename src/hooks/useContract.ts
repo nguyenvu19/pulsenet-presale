@@ -19,6 +19,7 @@ import {
   getBCakeFarmBoosterContract,
   getBCakeFarmBoosterProxyFactoryContract,
   getBCakeProxyContract,
+  getSellPullContract,
   getBep20Contract,
   getBunnyFactoryContract,
   getBunnySpecialCakeVaultContract,
@@ -363,4 +364,10 @@ export function useBCakeProxyContract(proxyContractAddress: string, withSignerIf
     () => proxyContractAddress && getBCakeProxyContract(proxyContractAddress, providerOrSigner),
     [providerOrSigner, proxyContractAddress],
   )
+}
+
+export const useSellPullContract = (withSignerIfPossible = true) => {
+  const { chainId } = useActiveChainId()
+  const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
+  return useMemo(() => getSellPullContract(providerOrSigner, chainId), [providerOrSigner, chainId])
 }

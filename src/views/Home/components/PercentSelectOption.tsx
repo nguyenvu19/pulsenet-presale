@@ -39,16 +39,16 @@ const StyledPercentSelectOption = styled.div`
 
 interface Props {
   options?: number[]
-  onSelect?: (p: number) => void
+  onChangePercent?: (p: number) => void
 }
 
 const defaultOptions = [25, 50, 75, 100]
 
-const PercentSelectOption: React.FC<Props> = ({ options = defaultOptions, onSelect, ...props }) => {
+const PercentSelectOption: React.FC<Props> = ({ options = defaultOptions, onChangePercent, ...props }) => {
   const [select, setSelect] = useState(options[0])
   const handleSelect = (num) => {
     setSelect(num)
-    onSelect?.(num)
+    onChangePercent?.(num)
   }
   return (
     <StyledPercentSelectOption {...props}>

@@ -17,7 +17,8 @@ const getNodeRealUrl = (networkName: string) => {
   switch (networkName) {
     case 'homestead':
       if (process.env.NEXT_PUBLIC_NODE_REAL_API_ETH) {
-        host = `eth-mainnet.nodereal.io/v1/${process.env.NEXT_PUBLIC_NODE_REAL_API_ETH}`
+        // host = `eth-mainnet.nodereal.io/v1/${process.env.NEXT_PUBLIC_NODE_REAL_API_ETH}`
+        host = `mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161`
       }
       break
     case 'rinkeby':
@@ -27,7 +28,8 @@ const getNodeRealUrl = (networkName: string) => {
       break
     case 'goerli':
       if (process.env.NEXT_PUBLIC_NODE_REAL_API_GOERLI) {
-        host = `eth-goerli.nodereal.io/v1/${process.env.NEXT_PUBLIC_NODE_REAL_API_GOERLI}`
+        // host = `eth-goerli.nodereal.io/v1/${process.env.NEXT_PUBLIC_NODE_REAL_API_GOERLI}`
+        host = `goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161`
       }
       break
     default:

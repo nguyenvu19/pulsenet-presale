@@ -41,6 +41,7 @@ import {
   getPredictionsV1Address,
   getBCakeFarmBoosterAddress,
   getBCakeFarmBoosterProxyFactoryAddress,
+  getSellPullAddress,
 } from 'utils/addressHelpers'
 
 // ABI
@@ -92,6 +93,7 @@ import cakePredictionsAbi from 'config/abi/cakePredictions.json'
 import bCakeFarmBoosterAbi from 'config/abi/bCakeFarmBooster.json'
 import bCakeFarmBoosterProxyFactoryAbi from 'config/abi/bCakeFarmBoosterProxyFactory.json'
 import bCakeProxyAbi from 'config/abi/bCakeProxy.json'
+import sellPullAbi from 'config/abi/sellPullAbi.json'
 
 // Types
 import type {
@@ -139,6 +141,7 @@ import type {
   BCakeFarmBooster,
   BCakeFarmBoosterProxyFactory,
   BCakeProxy,
+  SellPullAbi,
 } from 'config/abi/types'
 import { ChainId } from '@pancakeswap/sdk'
 
@@ -361,4 +364,8 @@ export const getBCakeFarmBoosterProxyFactoryContract = (signer?: Signer | Provid
 
 export const getBCakeProxyContract = (proxyContractAddress: string, signer?: Signer | Provider) => {
   return getContract({ abi: bCakeProxyAbi, address: proxyContractAddress, signer }) as BCakeProxy
+}
+
+export const getSellPullContract = (signer?: Signer | Provider, chainId?: number) => {
+  return getContract({ abi: sellPullAbi, address: getSellPullAddress(chainId), signer }) as SellPullAbi
 }

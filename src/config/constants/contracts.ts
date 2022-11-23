@@ -148,4 +148,10 @@ export default {
     56: '0x2C36221bF724c60E9FEE3dd44e2da8017a8EF3BA',
     97: '',
   },
+  salePull: {
+    1: '',
+    5: '0xA2f80b5C432e6ba63fe71ceC14AAA7cD729a3A7E',
+    56: '',
+    97: '0x55cc9b5890fbfd8bd029c2232f1e0ff81e9f84f4',
+  },
 }

@@ -1,4 +1,5 @@
-import { Flex, Box, Text } from '@pancakeswap/uikit'
+import { useState } from 'react'
+import { Flex, Box, Text, Button } from '@pancakeswap/uikit'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import styled from 'styled-components'
 import CardInput from './CardInput'
@@ -59,7 +60,7 @@ const RightInputButton = styled.button`
     height: 28px;
   }
 `
-const SubmitButtonStyled = styled.button`
+const SubmitButtonStyled = styled(Button)`
   color: #ffffff;
   font-weight: 600;
   font-size: 14px;
@@ -83,9 +84,21 @@ export enum CARD_ACTIVE {
 
 interface Props {
   account?: string
+  onConfirm: (p: any, cb?: () => void) => void
+  userOutput?: any
 }
 
-const CardRight = ({ account }: Props) => {
+const CardRight = ({ account, onConfirm, userOutput }: Props) => {
+  const [loading, setLoading] = useState(false)
+
+  const handleConfirm = () => {
+    if (loading) return
+
+    // setLoading(true)
+    onConfirm(() => {
+      // setLoading(false)
+    })
+  }
   return (
     <StyledCardRight>
       <div className="box_head">
@@ -94,6 +107,8 @@ const CardRight = ({ account }: Props) => {
 
       <Box mb="24px">
         <CardInput
+          value={userOutput}
+          readOnly
           labelLeft="Amount Received"
           rightInput={
             <RightInputButton>
@@ -108,7 +123,13 @@ const CardRight = ({ account }: Props) => {
         <Text>By confirm transaction you are agree with our terms & Private Policy!</Text>
       </Flex>
       <Flex justifyContent="center">
-        {account ? <SubmitButtonStyled>Confirm transaction</SubmitButtonStyled> : <ConnectWalletButton />}
+        {account ? (
+          <SubmitButtonStyled isLoading={loading} onClick={handleConfirm}>
+            Confirm transaction
+          </SubmitButtonStyled>
+        ) : (
+          <ConnectWalletButton />
+        )}
       </Flex>
     </StyledCardRight>
   )

@@ -1,5 +1,7 @@
 import { Flex, Text, Box } from '@pancakeswap/uikit'
+import { BigNumber as EthersBigNumber } from '@ethersproject/bignumber'
 import styled from 'styled-components'
+import { formatBigNumber } from 'utils/formatBalance'
 import CardInput from './CardInput'
 import PercentSelectOption from './PercentSelectOption'
 
@@ -123,16 +125,21 @@ const RightInputButton = styled.button`
   }
 `
 export enum CARD_ACTIVE {
-  LOCK,
-  PRESALE,
+  LOCK = 1,
+  PRESALE = 2,
 }
 
 interface Props {
   active?: CARD_ACTIVE
+  max?: number
   setViewCard: (p: CARD_ACTIVE) => void
+  userInput?: string
+  setUserInput?: (v: any) => void
+  errorMess?: string
+  onChangePercent?: (p: number) => void
 }
 
-const CardLeft = ({ active, setViewCard }: Props) => {
+const CardLeft = ({ active, max, setViewCard, errorMess, userInput, setUserInput, onChangePercent }: Props) => {
   return (
     <StyledCardLeft>
       <Flex>
@@ -140,7 +147,7 @@ const CardLeft = ({ active, setViewCard }: Props) => {
           {active === CARD_ACTIVE.LOCK ? (
             <img src="/images/card_button_left_active.png" alt="" />
           ) : (
-            <img src="/images/card_button_left.png" alt="" />
+            <img src="/images/card_button_left2.png" alt="" />
           )}
           <Flex className="content" alignItems="center">
             <Text fontSize="20px" fontWeight="600">
@@ -191,8 +198,10 @@ const CardLeft = ({ active, setViewCard }: Props) => {
         </Flex>
         <Box mb="24px">
           <CardInput
+            value={userInput}
             labelLeft="Payment"
-            labelRight="MAX: 04"
+            labelRight={`MAX: ${max ? max.toString().padStart(2, '0') : '-'}`}
+            errorMess={errorMess}
             rightInput={
               <RightInputButton>
                 <img src="/images/token_bnb.png" alt="" />
@@ -200,10 +209,11 @@ const CardLeft = ({ active, setViewCard }: Props) => {
               </RightInputButton>
             }
             placeholder="0.00"
+            onChange={(e) => setUserInput(e.target.value)}
           />
         </Box>
 
-        <PercentSelectOption />
+        <PercentSelectOption onChangePercent={onChangePercent} />
       </CardContent>
       <div className="arrow_down">
         <img src="/images/arrow_circle_down.png" alt="" />

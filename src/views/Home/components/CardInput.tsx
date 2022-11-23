@@ -3,6 +3,8 @@ import { ReactNode } from 'react'
 import styled from 'styled-components'
 
 const StyledInput = styled.div`
+  margin-bottom: 32px;
+  position: relative;
   .input_value {
     width: 100%;
     height: 56px;
@@ -35,16 +37,23 @@ const StyledInput = styled.div`
       }
     }
   }
+  .error_message {
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
 `
 
 interface Props {
   labelLeft?: ReactNode
   labelRight?: ReactNode
   rightInput?: ReactNode
+  errorMess?: string
   placeholder?: string
+  [t: string]: any
 }
 
-const CardInput: React.FC<Props> = ({ labelLeft, labelRight, rightInput, placeholder, ...props }) => {
+const CardInput: React.FC<Props> = ({ labelLeft, labelRight, rightInput, errorMess, placeholder, ...props }) => {
   return (
     <StyledInput>
       <Flex mb="6px" justifyContent="space-between">
@@ -63,6 +72,11 @@ const CardInput: React.FC<Props> = ({ labelLeft, labelRight, rightInput, placeho
         <input placeholder={placeholder} {...props} />
         <div className="right_input">{rightInput}</div>
       </div>
+      {errorMess && (
+        <Text className="error_message" color="red" fontSize="14px">
+          {errorMess}
+        </Text>
+      )}
     </StyledInput>
   )
 }
