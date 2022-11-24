@@ -12,10 +12,13 @@ import { formatBigNumber } from 'utils/formatBalance'
 import { DEFAULT_TOKEN_DECIMAL } from 'config'
 import useCatchTxError from 'hooks/useCatchTxError'
 import { useToast } from '@pancakeswap/uikit'
-import CardLeft, { CARD_ACTIVE } from './components/CardLeft'
+import { roundNumber } from 'library/helpers/Number'
+import CardLeft, { VIEW_CARD } from './components/CardLeft'
 import CardRight from './components/CardRight'
 import useMinMaxBuy from './hooks/useMinMaxBuy'
 import useGetPackages from './hooks/useGetPackages'
+import CardContentPresale from './components/CardContentPresale'
+import CardContentLockAndLoad from './components/CardContentLockAndLoad'
 
 const StyledHome = styled.div`
   padding-bottom: 32px;
@@ -25,7 +28,7 @@ const Home = () => {
   const { toastSuccess } = useToast()
   const { account, chainId } = useActiveWeb3React()
 
-  const [viewCard, setViewCard] = useState<CARD_ACTIVE>(CARD_ACTIVE.LOCK)
+  const [viewCard, setViewCard] = useState<VIEW_CARD>(VIEW_CARD.LOCK)
   const [userInput, setUserInput] = useState('')
   const [errorMess, setErrorMess] = useState('')
 
@@ -95,7 +98,7 @@ const Home = () => {
     const pka = packages?.[viewCard - 1]
     if (pka) {
       if (pka.price > 0) {
-        return +userInput / pka.price
+        return roundNumber(+userInput / pka.price)
       }
       return userInput
     }
@@ -108,12 +111,26 @@ const Home = () => {
         <Col xs={24} sm={24} md={24} lg={12}>
           <CardLeft
             active={viewCard}
-            max={max}
             setViewCard={setViewCard}
-            userInput={userInput}
-            setUserInput={setUserInput}
-            errorMess={errorMess}
-            onChangePercent={handleChangePercent}
+            renderContent={
+              viewCard === VIEW_CARD.LOCK ? (
+                <CardContentPresale
+                  max={max}
+                  userInput={userInput}
+                  setUserInput={setUserInput}
+                  errorMess={errorMess}
+                  onChangePercent={handleChangePercent}
+                />
+              ) : (
+                <CardContentLockAndLoad
+                  max={max}
+                  userInput={userInput}
+                  setUserInput={setUserInput}
+                  errorMess={errorMess}
+                  onChangePercent={handleChangePercent}
+                />
+              )
+            }
           />
         </Col>
 

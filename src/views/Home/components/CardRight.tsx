@@ -77,7 +77,7 @@ const SubmitButtonStyled = styled(Button)`
   white-space: nowrap;
 `
 
-export enum CARD_ACTIVE {
+export enum VIEW_CARD {
   LOCK,
   PRESALE,
 }

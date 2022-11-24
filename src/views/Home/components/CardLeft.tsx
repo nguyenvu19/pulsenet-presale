@@ -1,10 +1,6 @@
-import { Flex, Text, Box } from '@pancakeswap/uikit'
+import { ReactNode } from 'react'
+import { Flex, Text } from '@pancakeswap/uikit'
 import styled from 'styled-components'
-import useNativeCurrency from 'hooks/useNativeCurrency'
-import { ChainLogo } from 'components/Logo/ChainLogo'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import PercentSelectOption from './PercentSelectOption'
-import CardInput from './CardInput'
 
 const StyledCardLeft = styled.div`
   background: #111b1e;
@@ -78,77 +74,24 @@ const StyledButtonRight = styled.div`
     padding-left: 68px;
   }
 `
-const BoxStyled = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 4px 8px;
-  min-width: 120px;
-  height: 24px;
-  background: #008037;
-  border-radius: 4px;
 
-  img {
-    width: 14px;
-    height: 14px;
-    margin-right: 6px;
-  }
-`
-const CardContent = styled.div`
-  padding: 24px;
-  .line_space {
-    width: 16px;
-    height: 4px;
-    background: #008037;
-    margin: 0 16px;
-  }
-`
-const RightInputButton = styled.button`
-  /* Auto layout */
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 4px 12px;
-  gap: 8px;
-
-  width: 120px;
-  height: 36px;
-
-  background: #008037;
-  border-radius: 8px;
-  border: unset;
-  cursor: pointer;
-  img {
-    width: 28px;
-    height: 28px;
-  }
-`
-export enum CARD_ACTIVE {
+export enum VIEW_CARD {
   LOCK = 1,
   PRESALE = 2,
 }
 
 interface Props {
-  active?: CARD_ACTIVE
-  max?: number
-  setViewCard: (p: CARD_ACTIVE) => void
-  userInput?: string
-  setUserInput?: (v: any) => void
-  errorMess?: string
-  onChangePercent?: (p: number) => void
+  active?: VIEW_CARD
+  setViewCard: (p: VIEW_CARD) => void
+  renderContent?: ReactNode
 }
 
-const CardLeft = ({ active, max, setViewCard, errorMess, userInput, setUserInput, onChangePercent }: Props) => {
-  const { chainId } = useActiveWeb3React()
-  const native = useNativeCurrency()
-
+const CardLeft = ({ active, setViewCard, renderContent }: Props) => {
   return (
     <StyledCardLeft>
       <Flex>
-        <StyledButtonLeft onClick={() => setViewCard(CARD_ACTIVE.LOCK)}>
-          {active === CARD_ACTIVE.LOCK ? (
+        <StyledButtonLeft onClick={() => setViewCard(VIEW_CARD.LOCK)}>
+          {active === VIEW_CARD.LOCK ? (
             <img src="/images/card_button_left_active.png" alt="" />
           ) : (
             <img src="/images/card_button_left2.png" alt="" />
@@ -159,8 +102,8 @@ const CardLeft = ({ active, max, setViewCard, errorMess, userInput, setUserInput
             </Text>
           </Flex>
         </StyledButtonLeft>
-        <StyledButtonRight onClick={() => setViewCard(CARD_ACTIVE.PRESALE)}>
-          {active === CARD_ACTIVE.PRESALE ? (
+        <StyledButtonRight onClick={() => setViewCard(VIEW_CARD.PRESALE)}>
+          {active === VIEW_CARD.PRESALE ? (
             <img src="/images/card_button_right_active.png" alt="" />
           ) : (
             <img src="/images/card_button_right.png" alt="" />
@@ -172,54 +115,7 @@ const CardLeft = ({ active, max, setViewCard, errorMess, userInput, setUserInput
           </Flex>
         </StyledButtonRight>
       </Flex>
-      <CardContent>
-        <Flex p={['0', , '24px']} justifyContent="center" flexDirection="column" alignItems="center">
-          <Text fontSize="20px" bold mb="8px">
-            Token Allocation
-          </Text>
-          <Flex alignItems="center" mb="24px">
-            <BoxStyled>
-              <img src="/images/token_bnb.png" alt="" />
-              <Text style={{ whiteSpace: 'nowrap' }}>1 BNB</Text>
-            </BoxStyled>
-            <div className="line_space" />
-            <BoxStyled>
-              <Text style={{ whiteSpace: 'nowrap' }}>150,000 PULSE</Text>
-            </BoxStyled>
-          </Flex>
-          <Text fontSize="20px" bold mb="6px">
-            Vesting Plan
-          </Text>
-          <Text fontSize="14px" color="#D2D2DB" mb="5px">
-            TGE - 100 %
-          </Text>
-          <Text fontSize="14px" color="#D2D2DB" mb="5px" style={{ opacity: 0 }}>
-            9 Months - 25 %
-          </Text>
-          <Text fontSize="14px" color="#D2D2DB" mb="5px" style={{ opacity: 0 }}>
-            12 Months - 25 %
-          </Text>
-        </Flex>
-        <Box mb="24px">
-          <CardInput
-            value={userInput}
-            labelLeft="Payment"
-            labelRight={`MAX: ${max ? max.toString().padStart(2, '0') : '-'}`}
-            errorMess={errorMess}
-            rightInput={
-              <RightInputButton>
-                {/* <img src="/images/token_bnb.png" alt="" /> */}
-                <ChainLogo chainId={chainId} />
-                <Text>{native?.symbol}</Text>
-              </RightInputButton>
-            }
-            placeholder="0.00"
-            onChange={(e) => setUserInput(e.target.value)}
-          />
-        </Box>
-
-        <PercentSelectOption onChangePercent={onChangePercent} />
-      </CardContent>
+      {renderContent}
       <div className="arrow_down">
         <img src="/images/arrow_circle_down.png" alt="" />
       </div>
