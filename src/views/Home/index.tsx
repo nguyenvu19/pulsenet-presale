@@ -40,12 +40,11 @@ const Home = () => {
 
   /* contract */
   const contractSellPull = useSellPullContract()
+  const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
 
   const { packages } = useGetPackages()
   const packageItem = useMemo(() => packages?.[viewCard], [packages, viewCard])
   const { min, max } = useMinMaxBuy()
-
-  const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
 
   const [historyBuyPackages, fetchHistoryBuyPackages] = useHistoryBuyPackagesByAccount(account, viewCard)
 

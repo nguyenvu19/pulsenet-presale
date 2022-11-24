@@ -1,3 +1,4 @@
+import { GraphQLClient } from 'graphql-request'
 import {
   BIT_QUERY,
   INFO_CLIENT,
@@ -6,7 +7,6 @@ import {
   SELL_PULL_ETH,
   SELL_PULL_BEP20,
 } from 'config/constants/endpoints'
-import { GraphQLClient } from 'graphql-request'
 
 // Extra headers
 // Mostly for dev environment
@@ -52,3 +52,4 @@ export const bitQueryServerClient = new GraphQLClient(BIT_QUERY, {
 
 export const sellPulseEthGraph = new GraphQLClient(SELL_PULL_ETH)
 export const sellPulseBep20Graph = new GraphQLClient(SELL_PULL_BEP20)
+export const getSellPullGraph = (chainId) => ([56, 97].includes(chainId) ? sellPulseBep20Graph : sellPulseEthGraph)

@@ -1,6 +1,7 @@
 import { gql } from 'graphql-request'
+import { useActiveChainId } from 'hooks/useActiveChainId'
 import { useEffect, useCallback, useState } from 'react'
-import { sellPulseEthGraph } from 'utils/graphql'
+import { getSellPullGraph } from 'utils/graphql'
 import { HistoryBuyPackageType } from '../types'
 
 export interface BuyPackagesQuery {
@@ -12,7 +13,10 @@ export interface BuyPackagesQuery {
 }
 
 //
-const fetchDataFromGraph = async ({ total, packageId, userAddress, transactionHash, orderBy }: BuyPackagesQuery) => {
+const fetchDataFromGraph = async (
+  { total, packageId, userAddress, transactionHash, orderBy }: BuyPackagesQuery,
+  chainId,
+) => {
   const whereString = `
     ${total ? `first: ${+total},` : ''}
     where: {
@@ -36,7 +40,7 @@ const fetchDataFromGraph = async ({ total, packageId, userAddress, transactionHa
         }
       }
     `
-    const data: any = await sellPulseEthGraph.request(query)
+    const data: any = await getSellPullGraph(chainId).request(query)
     return { status: true, data: data?.buyPackages }
   } catch (error: any) {
     console.error('Failed to fetch BuyPackagesQuery', error)
@@ -55,6 +59,7 @@ export const useHistoryBuyPackages = (
   params: BuyPackagesQuery,
   setParams: (p: BuyPackagesQuery) => void,
 ] => {
+  const { chainId } = useActiveChainId()
   const [params, setParams] = useState<BuyPackagesQuery>({ total: 10 })
   const [result, setResult] = useState<HistoryBuyPackageType[] | undefined>()
 
@@ -69,12 +74,12 @@ export const useHistoryBuyPackages = (
 
   const fetchData = useCallback(async () => {
     if (params.userAddress && params.packageId) {
-      const { data, status } = await fetchDataFromGraph(params)
+      const { data, status } = await fetchDataFromGraph(params, chainId)
       if (status) {
         setResult(data)
       }
     }
-  }, [params])
+  }, [params, chainId])
 
   useEffect(() => {
     fetchData()
@@ -95,6 +100,7 @@ export const useHistoryBuyPackagesByAccount = (
   params: BuyPackagesQuery,
   setParams: (p: BuyPackagesQuery) => void,
 ] => {
+  const { chainId } = useActiveChainId()
   const [params, setParams] = useState<BuyPackagesQuery>({ total: 10 })
   const [result, setResult] = useState<HistoryBuyPackageType[] | undefined>()
 
@@ -110,12 +116,12 @@ export const useHistoryBuyPackagesByAccount = (
 
   const fetchData = useCallback(async () => {
     if (params.userAddress && params.packageId) {
-      const { data, status } = await fetchDataFromGraph(params)
+      const { data, status } = await fetchDataFromGraph(params, chainId)
       if (status) {
         setResult(data)
       }
     }
-  }, [params])
+  }, [chainId, params])
 
   useEffect(() => {
     fetchData()
