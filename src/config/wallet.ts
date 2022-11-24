@@ -34,7 +34,7 @@ export const wallets: WalletConfig<ConnectorNames>[] = [
         // @ts-ignore
         Boolean(window.ethereum?.isTrustWallet)),
     priority: 1,
-    href: 'https://link.trustwallet.com/open_url?coin_id=20000714&url=https://pancakeswap.finance/',
+    href: `https://link.trustwallet.com/open_url?coin_id=20000714&url=${process.env.NEXT_PUBLIC_APP_URL}/`,
     downloadLink: {
       desktop: 'https://chrome.google.com/webstore/detail/trust-wallet/egjidjbpglichdcondbcbdnbeeppgdph/related',
     },
@@ -45,7 +45,7 @@ export const wallets: WalletConfig<ConnectorNames>[] = [
     installed: typeof window !== 'undefined' && Boolean(window.ethereum?.isMetaMask),
     connectorId: ConnectorNames.MetaMask,
     priority: 2,
-    href: 'https://metamask.app.link/dapp/pancakeswap.finance/',
+    href: `https://metamask.app.link/dapp/${process.env.NEXT_PUBLIC_APP_URL?.split('//')?.[1]}/`,
   },
   // {
   //   title: 'Binance Wallet',
