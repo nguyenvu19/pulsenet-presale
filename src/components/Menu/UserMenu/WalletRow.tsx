@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { Box, Flex, FlexProps } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 
-interface NativeBalanceProps extends FlexProps {
+interface WalletRowProps extends FlexProps {
   leftNode: ReactNode
   rightNode: ReactNode
 }
@@ -26,7 +26,7 @@ const Address = styled.div`
   padding-left: 24px;
 `
 
-const NativeBalance: React.FC<NativeBalanceProps> = ({ leftNode, rightNode, ...props }) => {
+const WalletRow: React.FC<WalletRowProps> = ({ leftNode, rightNode, ...props }) => {
   return (
     <Box position="relative" {...props}>
       <Wrapper>
@@ -39,4 +39,4 @@ const NativeBalance: React.FC<NativeBalanceProps> = ({ leftNode, rightNode, ...p
   )
 }
 
-export default NativeBalance
+export default WalletRow

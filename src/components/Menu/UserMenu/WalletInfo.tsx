@@ -10,7 +10,7 @@ import { ChainLogo } from 'components/Logo/ChainLogo'
 import { useBalance } from 'wagmi'
 import { formatBigNumber } from 'utils/formatBalance'
 import CopyAddress from './CopyAddress'
-import NativeBalance from './NativeBalance'
+import WalletRow from './WalletRow'
 
 const COLORS = {
   ETH: '#627EEA',
@@ -52,7 +52,7 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowNativeBalance, onDismiss 
             {chain?.name}
           </Text>
         </Flex>
-        <NativeBalance
+        <WalletRow
           leftNode={`${native?.symbol} Balance`}
           rightNode={nativeBalance?.data ? formatBigNumber(nativeBalance.data.value, 6) : '-'}
           mb="24px"

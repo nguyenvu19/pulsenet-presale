@@ -1,8 +1,10 @@
 import styled from 'styled-components'
+import { useAccount, useNetwork } from 'wagmi'
 import { useTranslation } from '@pancakeswap/localization'
 import { Button, Text, Link, HelpIcon, Message, MessageText } from '@pancakeswap/uikit'
 import { ChainId } from '@pancakeswap/sdk'
-import { useSwitchNetwork } from 'hooks/useSwitchNetwork'
+import { useSwitchNetwork, useSwitchNetworkLocal } from 'hooks/useSwitchNetwork'
+import useAuth from 'hooks/useAuth'
 
 const StyledLink = styled(Link)`
   width: 100%;
@@ -17,6 +19,10 @@ interface WalletWrongNetworkProps {
 
 const WalletWrongNetwork: React.FC<React.PropsWithChildren<WalletWrongNetworkProps>> = ({ onDismiss }) => {
   const { t } = useTranslation()
+  const { isConnected } = useAccount()
+  const { logout } = useAuth()
+  const switchNetworkLocal = useSwitchNetworkLocal()
+
   const { switchNetworkAsync, canSwitch } = useSwitchNetwork()
 
   const handleSwitchNetwork = async (): Promise<void> => {
@@ -28,7 +34,7 @@ const WalletWrongNetwork: React.FC<React.PropsWithChildren<WalletWrongNetworkPro
     <>
       <Text mb="24px">{t('You’re connected to the wrong network.')}</Text>
       {canSwitch ? (
-        <Button onClick={handleSwitchNetwork} mb="24px">
+        <Button height="68px" onClick={handleSwitchNetwork} mb="24px">
           {t('Switch Network')}
         </Button>
       ) : (
@@ -36,12 +42,27 @@ const WalletWrongNetwork: React.FC<React.PropsWithChildren<WalletWrongNetworkPro
           <MessageText>{t('Unable to switch network. Please try it on your wallet')}</MessageText>
         </Message>
       )}
-      <StyledLink href="https://docs.pancakeswap.finance/get-started/connection-guide" external>
+      {/* <StyledLink href="https://docs.pancakeswap.finance/get-started/connection-guide" external>
         <Button width="100%" variant="secondary">
           {t('Learn How')}
           <HelpIcon color="primary" ml="6px" />
         </Button>
-      </StyledLink>
+      </StyledLink> */}
+      {isConnected && (
+        <Button
+          width="100%"
+          height="68px"
+          variant="black"
+          onClick={() => {
+            logout().then(() => {
+              switchNetworkLocal(ChainId.BSC)
+              onDismiss()
+            })
+          }}
+        >
+          {t('Disconnect Wallet')}
+        </Button>
+      )}
     </>
   )
 }

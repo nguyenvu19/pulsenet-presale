@@ -117,31 +117,30 @@ const WrongNetworkSelect = ({ switchNetwork, chainId }) => {
   return (
     <>
       <Flex ref={targetRef} alignItems="center" px="16px" py="8px">
-        <InfoIcon color="textSubtle" />
-        <Text color="textSubtle" pl="6px">
-          {t('Please switch network')}
-        </Text>
+        <Text color="textSubtle">{t('Please switch network')}</Text>
       </Flex>
-      {tooltipVisible && tooltip}
-      <UserMenuDivider />
-      {chain && (
-        <UserMenuItem ref={ref1} onClick={() => setSessionChainId(chain.id)} style={{ justifyContent: 'flex-start' }}>
-          <ChainLogo chainId={chain.id} />
-          <Text color="secondary" bold pl="12px">
-            {chain.name}
-          </Text>
+      {/* {tooltipVisible && tooltip} */}
+      {/* <UserMenuDivider /> */}
+      <Box p="12px 16px">
+        {chain && (
+          <UserMenuItem ref={ref1} onClick={() => setSessionChainId(chain.id)} style={{ justifyContent: 'flex-start' }}>
+            <ChainLogo chainId={chain.id} />
+            <Text color="secondary" bold pl="12px">
+              {chain.name}
+            </Text>
+          </UserMenuItem>
+        )}
+        <Box px="16px" pt="8px">
+          {isHover ? <ArrowUpIcon color="text" /> : <ArrowDownIcon color="text" />}
+        </Box>
+        <UserMenuItem onClick={() => switchNetwork(localChainId)} style={{ justifyContent: 'flex-start' }}>
+          <ChainLogo chainId={localChainId} />
+          <Text pl="12px">{localChainName}</Text>
         </UserMenuItem>
-      )}
-      <Box px="16px" pt="8px">
-        {isHover ? <ArrowUpIcon color="text" /> : <ArrowDownIcon color="text" />}
+        <Button mx="16px" my="8px" mt="24px" scale="sm" onClick={() => switchNetwork(localChainId)}>
+          {t('Switch network in wallet')}
+        </Button>
       </Box>
-      <UserMenuItem onClick={() => switchNetwork(localChainId)} style={{ justifyContent: 'flex-start' }}>
-        <ChainLogo chainId={localChainId} />
-        <Text pl="12px">{localChainName}</Text>
-      </UserMenuItem>
-      <Button mx="16px" my="8px" scale="sm" onClick={() => switchNetwork(localChainId)}>
-        {t('Switch network in wallet')}
-      </Button>
     </>
   )
 }
@@ -193,7 +192,7 @@ export const NetworkSwitcher = () => {
             //   t('Requesting')
             // ) :
             isWrongNetwork ? (
-              t('Network')
+              t('Wrong Network')
             ) : foundChain ? (
               <>
                 <Box display={['none', null, 'block']}>{foundChain.name}</Box>

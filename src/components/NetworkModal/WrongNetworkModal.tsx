@@ -23,9 +23,9 @@ export function WrongNetworkModal({ currentChain, onDismiss }: { currentChain: C
   const switchText = t('Switch to %network%', { network: currentChain.name })
 
   return (
-    <Modal title={t('You are in wrong network')} headerBackground="gradientCardHeader" onDismiss={onDismiss}>
-      <Grid style={{ gap: '16px' }} maxWidth="336px">
-        <Text>{t('This page is located for %network%.', { network: currentChain.name })}</Text>
+    <Modal title={t('Wrong network')} headerBackground="transparent" hideCloseButton maxWidth="600px">
+      <Grid style={{ gap: '16px' }} pt="24px">
+        {/* <Text>{t('This page is located for %network%.', { network: currentChain.name })}</Text>
         <Text>
           {t('You are under %network% now, please switch the network to continue.', { network: chain?.name ?? '' })}
         </Text>
@@ -42,9 +42,14 @@ export function WrongNetworkModal({ currentChain, onDismiss }: { currentChain: C
               <span>{t('Switch network to continue.')}</span>
             </FlexGap>
           </MessageText>
-        </Message>
+        </Message> */}
         {canSwitch ? (
-          <Button isLoading={isLoading} onClick={() => switchNetworkAsync(chainId)}>
+          <Button
+            isLoading={isLoading}
+            height="68px"
+            style={{ lineHeight: '22px' }}
+            onClick={() => switchNetworkAsync(chainId)}
+          >
             {isLoading ? <Dots>{switchText}</Dots> : switchText}
           </Button>
         ) : (
@@ -54,12 +59,13 @@ export function WrongNetworkModal({ currentChain, onDismiss }: { currentChain: C
         )}
         {isConnected && (
           <Button
+            height="68px"
+            variant="black"
             onClick={() =>
               logout().then(() => {
                 setSessionChainId(chainId)
               })
             }
-            variant="secondary"
           >
             {t('Disconnect Wallet')}
           </Button>
