@@ -1,4 +1,4 @@
-# 🥞 Pancake Frontend
+# Pulsenet Presale
 
 This project contains the main features of the pancake application.
 
