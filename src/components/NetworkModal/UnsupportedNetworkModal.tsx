@@ -1,8 +1,7 @@
-import { Button, Grid, Message, MessageText, Modal, Text } from '@pancakeswap/uikit'
+import { Button, Flex, Grid, Message, MessageText, Modal, Text, WarningIcon } from '@pancakeswap/uikit'
 import { useLocalNetworkChain } from 'hooks/useActiveChainId'
 import { useTranslation } from '@pancakeswap/localization'
 import { useSwitchNetwork, useSwitchNetworkLocal } from 'hooks/useSwitchNetwork'
-import Image from 'next/image'
 import useAuth from 'hooks/useAuth'
 import { useMenuItems } from 'components/Menu/hooks/useMenuItems'
 import { useRouter } from 'next/router'
@@ -37,26 +36,23 @@ export function UnsupportedNetworkModal({ pageSupportedChains }: { pageSupported
   )
 
   return (
-    <Modal title={t('Check your network')} hideCloseButton headerBackground="gradientCardHeader">
-      <Grid style={{ gap: '16px' }} maxWidth="336px">
-        <Text>
-          {t('Currently %feature% only supported in', { feature: typeof title === 'string' ? title : 'this page' })}{' '}
-          {supportedMainnetChains?.map((c) => c.name).join(', ')}
+    <Modal title={t('Check your network')} hideCloseButton headerBackground="transparent" maxWidth="600px">
+      <Grid style={{ gap: '16px' }}>
+        <Text textAlign="center">
+          Currently this page only supported in <br />
+          BNB Smart Chain, Ethereum
+          {/* {supportedMainnetChains?.map((c) => c.name).join(', ')} */}
         </Text>
-        <div style={{ textAlign: 'center' }}>
-          <Image
-            layout="fixed"
-            width="194px"
-            height="175px"
-            src="/images/check-your-network.png"
-            alt="check your network"
-          />
-        </div>
-        <Message variant="warning">
-          <MessageText>{t('Please switch your network to continue.')}</MessageText>
+
+        <Message variant="warning" icon={false}>
+          <Flex justifyContent="center" width="100%">
+            <WarningIcon color="warning" width="24px" />
+            <Text ml="16px">Please switch your network to continue.</Text>
+          </Flex>
         </Message>
         {canSwitch ? (
           <Button
+            height="68px"
             isLoading={isLoading}
             onClick={() => {
               if (supportedMainnetChains.map((c) => c.id).includes(chainId)) {
@@ -75,7 +71,9 @@ export function UnsupportedNetworkModal({ pageSupportedChains }: { pageSupported
         )}
         {isConnected && (
           <Button
-            variant="secondary"
+            width="100%"
+            height="68px"
+            variant="black"
             onClick={() =>
               logout().then(() => {
                 switchNetworkLocal(ChainId.BSC)

@@ -15,14 +15,14 @@ interface Props<T> {
   onDismiss: () => void;
 }
 
-const WalletButton = styled(Button).attrs({ width: "100%", variant: "text", py: "16px" })`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  height: auto;
-  justify-content: center;
-  margin-left: auto;
-  margin-right: auto;
+const WalletButton = styled.div`
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  img {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 interface MoreWalletCardProps extends ButtonProps {
@@ -75,8 +75,7 @@ const WalletCard: React.FC<React.PropsWithChildren<Props<any>>> = ({ login, wall
 
   return (
     <WalletButton variant="tertiary" {...linkAction} id={`wallet-connect-${title.toLowerCase()}`}>
-      <Icon width="40px" mb="8px" />
-      <Text fontSize="14px">{title}</Text>
+      {typeof Icon === "string" ? <img src={Icon} width="40px" alt="" /> : <Icon width="40px" mb="8px" />}
     </WalletButton>
   );
 };

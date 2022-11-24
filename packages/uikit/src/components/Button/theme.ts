@@ -58,4 +58,7 @@ export const styleVariants = {
     color: "textSubtle",
     boxShadow: "none",
   },
+  [variants.BLACK]: {
+    backgroundColor: "#000000",
+  },
 };

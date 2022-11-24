@@ -16,9 +16,9 @@ const Icons = {
 };
 
 const MessageContainer = styled.div<MessageProps>`
-  background-color: gray;
+  /* background-color: gray; */
   padding: 16px;
-  border-radius: 16px;
+  border-radius: 12px;
   border: solid 1px;
 
   ${space}
@@ -33,7 +33,7 @@ const Flex = styled.div`
 
 const colors = {
   // these color names should be place in the theme once the palette is finalized
-  warning: "#D67E0A",
+  warning: "#F98C36",
   success: "#129E7D",
   danger: "failure",
 };

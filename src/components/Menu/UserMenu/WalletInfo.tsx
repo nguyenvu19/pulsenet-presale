@@ -10,7 +10,7 @@ import { ChainLogo } from 'components/Logo/ChainLogo'
 import { useBalance } from 'wagmi'
 import { formatBigNumber } from 'utils/formatBalance'
 import CopyAddress from './CopyAddress'
-import NativeBalance from './Nativebalance'
+import NativeBalance from './NativeBalance'
 
 const COLORS = {
   ETH: '#627EEA',

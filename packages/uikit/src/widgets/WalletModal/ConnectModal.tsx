@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled, { useTheme } from "styled-components";
+import { Flex } from "../../components/Box";
 import Box from "../../components/Box/Box";
 import Grid from "../../components/Box/Grid";
 import { Button } from "../../components/Button";
@@ -21,7 +22,7 @@ interface Props<T> {
 }
 
 const WalletWrapper = styled(Box)`
-  border-bottom: 1px solid ${({ theme }) => theme.colors.cardBorder};
+  /* border-bottom: 1px solid ${({ theme }) => theme.colors.cardBorder}; */
 `;
 
 const getPriority = (priority: WalletConfig["priority"]) => (typeof priority === "function" ? priority() : priority);
@@ -69,25 +70,25 @@ function ConnectModal<T>({ login, onDismiss = () => null, displayCount = 3, t, w
   const displayListConfig = showMore ? walletsToShow : walletsToShow.slice(0, displayCount);
 
   return (
-    <ModalContainer $minWidth="320px">
-      <ModalHeader background={getThemeValue(theme, "colors.gradientBubblegum")}>
+    <ModalContainer $maxWidth="600px">
+      <ModalHeader background="transparent">
         <ModalTitle>
-          <Heading>{t("Connect Wallet")}</Heading>
+          <Heading>Connect your Wallet</Heading>
         </ModalTitle>
         <ModalCloseButton onDismiss={onDismiss} />
       </ModalHeader>
       <ModalBody minWidth={["320px", null, "340px"]}>
-        <WalletWrapper py="24px" maxHeight="453px" overflowY="auto">
-          <Grid gridTemplateColumns="1fr 1fr">
+        <WalletWrapper py="24px" overflowY="auto">
+          <Grid gridTemplateColumns="1fr 1fr" width="100%" maxWidth="400px" margin="0 auto">
             {displayListConfig.map((wallet) => (
-              <Box key={wallet.title}>
+              <Flex key={wallet.title} justifyContent="center">
                 <WalletCard walletConfig={wallet} login={login} onDismiss={onDismiss} />
-              </Box>
+              </Flex>
             ))}
             {!showMore && walletsToShow.length > 4 && <MoreWalletCard t={t} onClick={() => setShowMore(true)} />}
           </Grid>
         </WalletWrapper>
-        <Box p="24px">
+        {/* <Box p="24px">
           <Text textAlign="center" color="textSubtle" as="p" mb="16px">
             {t("Haven’t got a crypto wallet yet?")}
           </Text>
@@ -100,7 +101,7 @@ function ConnectModal<T>({ login, onDismiss = () => null, displayCount = 3, t, w
           >
             {t("Learn How to Connect")}
           </Button>
-        </Box>
+        </Box> */}
       </ModalBody>
     </ModalContainer>
   );

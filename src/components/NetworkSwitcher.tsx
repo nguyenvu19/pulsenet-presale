@@ -65,7 +65,6 @@ const NetworkSelectContentStyle = styled.div`
 
 const NetworkSelect = ({ switchNetwork, chainId }) => {
   const { t } = useTranslation()
-
   return (
     <NetworkSelectContentStyle>
       <Box>
@@ -75,7 +74,7 @@ const NetworkSelect = ({ switchNetwork, chainId }) => {
       </Box>
       {/* <UserMenuDivider /> */}
       {chains
-        .filter((chain) => !chain.testnet || chain.id === chainId)
+        // .filter((chain) => !chain.testnet || chain.id === chainId)
         .map((chain) => (
           <UserMenuItem
             key={chain.id}

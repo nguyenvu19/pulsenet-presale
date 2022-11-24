@@ -14,9 +14,9 @@ const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({
   onBack,
   children,
   hideCloseButton = false,
-  bodyPadding = "24px",
+  bodyPadding = "12px 24px 24px",
   headerBackground = "transparent",
-  minWidth = "320px",
+  maxWidth = "320px",
   ...props
 }) => {
   const theme = useTheme();
@@ -36,7 +36,7 @@ const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({
         if (info.velocity.y > MODAL_SWIPE_TO_CLOSE_VELOCITY && onDismiss) onDismiss();
       }}
       ref={wrapperRef}
-      $minWidth={minWidth}
+      $maxWidth={maxWidth}
       {...props}
     >
       <ModalHeader background={getThemeValue(theme, `colors.${headerBackground}`, headerBackground)}>

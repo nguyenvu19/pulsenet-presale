@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react'
-import { Box, SvgProps } from '@pancakeswap/uikit'
+import { Box } from '@pancakeswap/uikit'
 import { copyText } from '@pancakeswap/utils/copyText'
 import styled from 'styled-components'
 
@@ -23,7 +23,7 @@ const Tooltip = styled.div<{
   width: max-content;
 `
 
-interface CopyButtonProps extends SvgProps {
+interface CopyButtonProps {
   text: string
   tooltipMessage: string
   tooltipTop: number
@@ -32,7 +32,7 @@ interface CopyButtonProps extends SvgProps {
   children?: ReactNode
 }
 
-export const CopyText: React.FC<React.PropsWithChildren<CopyButtonProps>> = ({
+export const CopyText: React.FC<CopyButtonProps> = ({
   text,
   tooltipMessage,
   tooltipTop,

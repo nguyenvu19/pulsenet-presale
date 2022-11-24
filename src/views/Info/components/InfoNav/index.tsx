@@ -93,23 +93,24 @@ export const NetworkSwitcher: React.FC<{ activeIndex: number }> = ({ activeIndex
   )
 
   return (
-    <UserMenu
-      alignItems="top"
-      ml="8px"
-      avatarSrc={`/images/chains/${multiChainId[chainName]}.png`}
-      text={
-        foundChain ? (
-          <>
-            <Box display={['none', null, null, null, null, 'block']}>{foundChain.name}</Box>
-            <Box display={['block', null, null, null, null, 'none']}>{symbol}</Box>
-          </>
-        ) : (
-          t('Select a Network')
-        )
-      }
-    >
-      {() => <NetworkSelect chainId={multiChainId[chainName]} switchNetwork={switchNetwork} />}
-    </UserMenu>
+    <></>
+    // <UserMenu
+    //   alignItems="top"
+    //   ml="8px"
+    //   avatarSrc={`/images/chains/${multiChainId[chainName]}.png`}
+    //   text={
+    //     foundChain ? (
+    //       <>
+    //         <Box display={['none', null, null, null, null, 'block']}>{foundChain.name}</Box>
+    //         <Box display={['block', null, null, null, null, 'none']}>{symbol}</Box>
+    //       </>
+    //     ) : (
+    //       t('Select a Network')
+    //     )
+    //   }
+    // >
+    //   {() => <NetworkSelect chainId={multiChainId[chainName]} switchNetwork={switchNetwork} />}
+    // </UserMenu>
   )
 }
 

@@ -6,7 +6,7 @@ export type Login<T> = (connectorId: T) => void;
 // eslint-disable-next-line @typescript-eslint/ban-types
 export interface WalletConfig<T = {}> {
   title: string;
-  icon: FC<React.PropsWithChildren<SvgProps>>;
+  icon: FC<React.PropsWithChildren<SvgProps>> | string;
   connectorId: T;
   priority: number | (() => number);
   href?: string;

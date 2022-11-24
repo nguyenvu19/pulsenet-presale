@@ -2,8 +2,11 @@ import { Flex, Text, Box } from '@pancakeswap/uikit'
 import { BigNumber as EthersBigNumber } from '@ethersproject/bignumber'
 import styled from 'styled-components'
 import { formatBigNumber } from 'utils/formatBalance'
-import CardInput from './CardInput'
+import useNativeCurrency from 'hooks/useNativeCurrency'
+import { ChainLogo } from 'components/Logo/ChainLogo'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import PercentSelectOption from './PercentSelectOption'
+import CardInput from './CardInput'
 
 const StyledCardLeft = styled.div`
   background: #111b1e;
@@ -140,6 +143,9 @@ interface Props {
 }
 
 const CardLeft = ({ active, max, setViewCard, errorMess, userInput, setUserInput, onChangePercent }: Props) => {
+  const { chainId } = useActiveWeb3React()
+  const native = useNativeCurrency()
+
   return (
     <StyledCardLeft>
       <Flex>
@@ -204,8 +210,9 @@ const CardLeft = ({ active, max, setViewCard, errorMess, userInput, setUserInput
             errorMess={errorMess}
             rightInput={
               <RightInputButton>
-                <img src="/images/token_bnb.png" alt="" />
-                <Text>BNB</Text>
+                {/* <img src="/images/token_bnb.png" alt="" /> */}
+                <ChainLogo chainId={chainId} />
+                <Text>{native?.symbol}</Text>
               </RightInputButton>
             }
             placeholder="0.00"
