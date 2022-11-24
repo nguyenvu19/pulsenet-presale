@@ -82,7 +82,7 @@ const CardContentLockAndLoad = ({ max, errorMess, userInput, setUserInput, onCha
           </BoxStyled>
           <div className="line_space" />
           <BoxStyled>
-            <Text style={{ whiteSpace: 'nowrap' }}>250,000 PULSE</Text>
+            <Text style={{ whiteSpace: 'nowrap' }}>150,000 PULSE</Text>
           </BoxStyled>
         </Flex>
         <Text fontSize="20px" bold mb="6px">
@@ -91,10 +91,10 @@ const CardContentLockAndLoad = ({ max, errorMess, userInput, setUserInput, onCha
         <Text fontSize="14px" color="#D2D2DB" mb="5px">
           TGE - 100 %
         </Text>
-        <Text fontSize="14px" color="#D2D2DB" mb="5px">
+        <Text fontSize="14px" color="#D2D2DB" mb="5px" style={{ opacity: 0 }}>
           9 Months - 25 %
         </Text>
-        <Text fontSize="14px" color="#D2D2DB" mb="5px">
+        <Text fontSize="14px" color="#D2D2DB" mb="5px" style={{ opacity: 0 }}>
           12 Months - 25 %
         </Text>
       </Flex>

@@ -114,7 +114,7 @@ const Home = () => {
             setViewCard={setViewCard}
             renderContent={
               viewCard === VIEW_CARD.LOCK ? (
-                <CardContentPresale
+                <CardContentLockAndLoad
                   max={max}
                   userInput={userInput}
                   setUserInput={setUserInput}
@@ -122,7 +122,7 @@ const Home = () => {
                   onChangePercent={handleChangePercent}
                 />
               ) : (
-                <CardContentLockAndLoad
+                <CardContentPresale
                   max={max}
                   userInput={userInput}
                   setUserInput={setUserInput}

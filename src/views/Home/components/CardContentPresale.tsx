@@ -82,19 +82,19 @@ const CardContentPresale = ({ max, errorMess, userInput, setUserInput, onChangeP
           </BoxStyled>
           <div className="line_space" />
           <BoxStyled>
-            <Text style={{ whiteSpace: 'nowrap' }}>150,000 PULSE</Text>
+            <Text style={{ whiteSpace: 'nowrap' }}>250,000 PULSE</Text>
           </BoxStyled>
         </Flex>
         <Text fontSize="20px" bold mb="6px">
           Vesting Plan
         </Text>
         <Text fontSize="14px" color="#D2D2DB" mb="5px">
-          TGE - 100 %
+          6 Months - 50 %
         </Text>
-        <Text fontSize="14px" color="#D2D2DB" mb="5px" style={{ opacity: 0 }}>
+        <Text fontSize="14px" color="#D2D2DB" mb="5px">
           9 Months - 25 %
         </Text>
-        <Text fontSize="14px" color="#D2D2DB" mb="5px" style={{ opacity: 0 }}>
+        <Text fontSize="14px" color="#D2D2DB" mb="5px">
           12 Months - 25 %
         </Text>
       </Flex>
