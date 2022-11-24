@@ -7,11 +7,10 @@ import useAuth from 'hooks/useAuth'
 import useNativeCurrency from 'hooks/useNativeCurrency'
 import { useGetCakeBalance } from 'hooks/useTokenBalance'
 import { ChainLogo } from 'components/Logo/ChainLogo'
-
-import { getBlockExploreLink, getBlockExploreName } from 'utils'
-import { formatBigNumber } from 'utils/formatBalance'
 import { useBalance } from 'wagmi'
+import { formatBigNumber } from 'utils/formatBalance'
 import CopyAddress from './CopyAddress'
+import NativeBalance from './Nativebalance'
 
 const COLORS = {
   ETH: '#627EEA',
@@ -40,11 +39,27 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowNativeBalance, onDismiss 
 
   return (
     <>
-      <Text color="secondary" fontSize="12px" textTransform="uppercase" fontWeight="bold" mb="8px">
-        {t('Your Address')}
-      </Text>
-      <CopyAddress account={account} mb="24px" />
-      {hasLowNativeBalance && (
+      <Box mb="24px">
+        <Text fontSize="16px" fontWeight="600" mb="8px">
+          {t('Your Address')}
+        </Text>
+        <CopyAddress account={account} />
+      </Box>
+      <Box mb="8px">
+        <Flex alignItems="center" mb="8px">
+          <ChainLogo chainId={chainId} />
+          <Text fontSize="16px" fontWeight="600" ml="8px">
+            {chain?.name}
+          </Text>
+        </Flex>
+        <NativeBalance
+          leftNode={`${native?.symbol} Balance`}
+          rightNode={nativeBalance?.data ? formatBigNumber(nativeBalance.data.value, 6) : '-'}
+          mb="24px"
+        />
+      </Box>
+
+      {/* {hasLowNativeBalance && (
         <Message variant="warning" mb="24px">
           <Box>
             <Text fontWeight="bold">
@@ -113,8 +128,9 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowNativeBalance, onDismiss 
             <Text>{formatBigNumber(cakeBalance, 3)}</Text>
           )}
         </Flex>
-      </Box>
-      <Button variant="secondary" width="100%" onClick={handleLogout}>
+      </Box> */}
+
+      <Button width="100%" maxWidth="200px" margin="0 auto" onClick={handleLogout}>
         {t('Disconnect Wallet')}
       </Button>
     </>

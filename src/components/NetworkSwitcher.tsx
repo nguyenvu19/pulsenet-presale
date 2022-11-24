@@ -35,6 +35,7 @@ export const StyledUserMenu = styled(Flex)`
   padding: 4px 8px;
   padding-left: 60px;
   position: relative;
+  z-index: 10;
 
   border-radius: 12px 0 0 12px;
 
@@ -55,16 +56,24 @@ export const StyledUserMenu = styled(Flex)`
     transform: translateY(-50%);
   }
 `
+const NetworkSelectContentStyle = styled.div`
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+`
 
 const NetworkSelect = ({ switchNetwork, chainId }) => {
   const { t } = useTranslation()
 
   return (
-    <>
-      <Box px="16px" py="8px">
-        <Text color="textSubtle">{t('Select a Network')}</Text>
+    <NetworkSelectContentStyle>
+      <Box>
+        <Text color="#FFFFFF" fontSize="20px">
+          {t('Select a Network')}
+        </Text>
       </Box>
-      <UserMenuDivider />
+      {/* <UserMenuDivider /> */}
       {chains
         .filter((chain) => !chain.testnet || chain.id === chainId)
         .map((chain) => (
@@ -79,7 +88,7 @@ const NetworkSelect = ({ switchNetwork, chainId }) => {
             </Text>
           </UserMenuItem>
         ))}
-    </>
+    </NetworkSelectContentStyle>
   )
 }
 

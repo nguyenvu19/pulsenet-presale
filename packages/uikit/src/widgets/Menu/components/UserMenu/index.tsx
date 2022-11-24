@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Box, Flex } from "../../../../components/Box";
 import { UserMenuProps } from "./types";
 import { UserMenuItem } from "./styles";
+import { useMatchBreakpoints } from "../../../../contexts";
 
 export const LabelText = styled.div`
   color: ${({ theme }) => theme.colors.text};
@@ -18,8 +19,10 @@ export const LabelText = styled.div`
 `;
 
 const Menu = styled.div<{ isOpen: boolean }>`
-  background-color: ${({ theme }) => theme.card.background};
-  border: 1px solid ${({ theme }) => theme.colors.cardBorder};
+  background: #111b1e;
+  border-radius: 12px;
+  /* background-color: ${({ theme }) => theme.card.background};
+  border: 1px solid ${({ theme }) => theme.colors.cardBorder}; */
   border-radius: 16px;
   padding-bottom: 4px;
   padding-top: 4px;
@@ -46,12 +49,13 @@ const Menu = styled.div<{ isOpen: boolean }>`
 
 const UserMenu: React.FC<UserMenuProps> = ({ overlay, children, disabled, placement = "bottom-end", ...props }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { isMobile } = useMatchBreakpoints();
   const [targetRef, setTargetRef] = useState<HTMLDivElement | null>(null);
   const [tooltipRef, setTooltipRef] = useState<HTMLDivElement | null>(null);
   const { styles, attributes } = usePopper(targetRef, tooltipRef, {
     strategy: "fixed",
     placement,
-    modifiers: [{ name: "offset", options: { offset: [0, -56] } }],
+    modifiers: [{ name: "offset", options: { offset: [0, isMobile ? -26 : -56] } }],
   });
 
   useEffect(() => {

@@ -1,7 +1,7 @@
-import { Box, Flex, FlexProps } from '@pancakeswap/uikit'
+import { Box, Text, Flex, FlexProps } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 import { useTranslation } from '@pancakeswap/localization'
-import { CopyButton } from '../../CopyButton'
+import { CopyText } from '../../CopyText'
 
 interface CopyAddressProps extends FlexProps {
   account: string
@@ -9,15 +9,17 @@ interface CopyAddressProps extends FlexProps {
 
 const Wrapper = styled(Flex)`
   align-items: center;
-  background-color: ${({ theme }) => theme.colors.dropdown};
-  border-radius: 16px;
+  /* background-color: ${({ theme }) => theme.colors.dropdown}; */
+  height: 68px;
+  background: #000000;
+  border-radius: 12px;
   position: relative;
 `
 
 const Address = styled.div`
   flex: 1;
   position: relative;
-  padding-left: 16px;
+  padding-left: 24px;
 
   & > input {
     background: transparent;
@@ -58,8 +60,12 @@ const CopyAddress: React.FC<React.PropsWithChildren<CopyAddressProps>> = ({ acco
         <Address title={account}>
           <input type="text" readOnly value={account} />
         </Address>
-        <Flex margin="12px">
-          <CopyButton width="24px" text={account} tooltipMessage={t('Copied')} tooltipTop={-40} />
+        <Flex margin="12px 24px">
+          <CopyText text={account} tooltipMessage={t('Copied')} tooltipTop={-40}>
+            <Text color="#008037" style={{ cursor: 'pointer' }}>
+              Copy
+            </Text>
+          </CopyText>
         </Flex>
       </Wrapper>
     </Box>
