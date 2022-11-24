@@ -1,7 +1,5 @@
 import { Flex, Text, Box } from '@pancakeswap/uikit'
-import { BigNumber as EthersBigNumber } from '@ethersproject/bignumber'
 import styled from 'styled-components'
-import { formatBigNumber } from 'utils/formatBalance'
 import useNativeCurrency from 'hooks/useNativeCurrency'
 import { ChainLogo } from 'components/Logo/ChainLogo'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
@@ -186,19 +184,19 @@ const CardLeft = ({ active, max, setViewCard, errorMess, userInput, setUserInput
             </BoxStyled>
             <div className="line_space" />
             <BoxStyled>
-              <Text style={{ whiteSpace: 'nowrap' }}>250,000 PULSE</Text>
+              <Text style={{ whiteSpace: 'nowrap' }}>150,000 PULSE</Text>
             </BoxStyled>
           </Flex>
           <Text fontSize="20px" bold mb="6px">
             Vesting Plan
           </Text>
-          <Text fontSize="14px" color="#D2D2DB" mb="4px">
-            6 Months - 50 %
+          <Text fontSize="14px" color="#D2D2DB" mb="5px">
+            TGE - 100 %
           </Text>
-          <Text fontSize="14px" color="#D2D2DB" mb="4px">
+          <Text fontSize="14px" color="#D2D2DB" mb="5px" style={{ opacity: 0 }}>
             9 Months - 25 %
           </Text>
-          <Text fontSize="14px" color="#D2D2DB" mb="4px">
+          <Text fontSize="14px" color="#D2D2DB" mb="5px" style={{ opacity: 0 }}>
             12 Months - 25 %
           </Text>
         </Flex>

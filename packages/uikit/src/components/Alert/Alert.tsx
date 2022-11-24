@@ -79,9 +79,9 @@ const Alert: React.FC<React.PropsWithChildren<AlertProps>> = ({ title, children,
 
   return (
     <StyledAlert>
-      <IconLabel variant={variant} hasDescription={!!children}>
+      {/* <IconLabel variant={variant} hasDescription={!!children}>
         <Icon color="currentColor" width="24px" />
-      </IconLabel>
+      </IconLabel> */}
       <Details hasHandler={!!onClick}>
         <Text bold>{title}</Text>
         {typeof children === "string" ? <Text as="p">{children}</Text> : children}
