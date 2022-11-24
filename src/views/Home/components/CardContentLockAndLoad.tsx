@@ -17,7 +17,8 @@ const BoxStyled = styled.div`
   background: #008037;
   border-radius: 4px;
 
-  img {
+  img,
+  svg {
     width: 14px;
     height: 14px;
     margin-right: 6px;
@@ -77,24 +78,28 @@ const CardContentLockAndLoad = ({ max, errorMess, userInput, setUserInput, onCha
         </Text>
         <Flex alignItems="center" mb="24px">
           <BoxStyled>
-            <img src="/images/token_bnb.png" alt="" />
-            <Text style={{ whiteSpace: 'nowrap' }}>1 BNB</Text>
+            <ChainLogo chainId={chainId} />
+
+            {/* <img src="/images/token_bnb.png" alt="" /> */}
+            <Text style={{ whiteSpace: 'nowrap' }}>
+              {[56, 97].includes(chainId) ? '1' : '0.22'} {native?.symbol}
+            </Text>
           </BoxStyled>
           <div className="line_space" />
           <BoxStyled>
-            <Text style={{ whiteSpace: 'nowrap' }}>150,000 PULSE</Text>
+            <Text style={{ whiteSpace: 'nowrap' }}>250,000 PULSE</Text>
           </BoxStyled>
         </Flex>
         <Text fontSize="20px" bold mb="6px">
           Vesting Plan
         </Text>
         <Text fontSize="14px" color="#D2D2DB" mb="5px">
-          TGE - 100 %
+          6 Months - 50 %
         </Text>
-        <Text fontSize="14px" color="#D2D2DB" mb="5px" style={{ opacity: 0 }}>
+        <Text fontSize="14px" color="#D2D2DB" mb="5px">
           9 Months - 25 %
         </Text>
-        <Text fontSize="14px" color="#D2D2DB" mb="5px" style={{ opacity: 0 }}>
+        <Text fontSize="14px" color="#D2D2DB" mb="5px">
           12 Months - 25 %
         </Text>
       </Flex>
