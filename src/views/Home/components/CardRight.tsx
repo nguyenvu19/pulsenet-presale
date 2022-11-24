@@ -40,7 +40,7 @@ const StyledCardRight = styled.div`
     }
   }
 `
-const RightInputButton = styled.button`
+const RightInputButton = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -53,7 +53,6 @@ const RightInputButton = styled.button`
   background: #008037;
   border-radius: 8px;
   border: unset;
-  cursor: pointer;
 
   img {
     width: 28px;

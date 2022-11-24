@@ -33,9 +33,7 @@ const CardContent = styled.div`
     margin: 0 16px;
   }
 `
-const RightInputButton = styled.button`
-  /* Auto layout */
-
+const RightInputButton = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -48,7 +46,7 @@ const RightInputButton = styled.button`
   background: #008037;
   border-radius: 8px;
   border: unset;
-  cursor: pointer;
+
   img {
     width: 28px;
     height: 28px;
@@ -110,7 +108,6 @@ const CardContentPresale = ({ max, errorMess, userInput, setUserInput, onChangeP
           errorMess={errorMess}
           rightInput={
             <RightInputButton>
-              {/* <img src="/images/token_bnb.png" alt="" /> */}
               <ChainLogo chainId={chainId} />
               <Text>{native?.symbol}</Text>
             </RightInputButton>

@@ -40,24 +40,47 @@ const Home = () => {
 
   /* contract */
   const contractSellPull = useSellPullContract()
+
   const { packages } = useGetPackages()
+  const packageItem = useMemo(() => packages?.[viewCard], [packages, viewCard])
   const { min, max } = useMinMaxBuy()
 
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
 
   const [historyBuyPackages, fetchHistoryBuyPackages] = useHistoryBuyPackagesByAccount(account, viewCard)
 
-  /* total was buy */
-  const totalWasBuy = useMemo(
-    () =>
-      historyBuyPackages &&
-      historyBuyPackages.reduce((total, curr) => {
-        const tt = total + +curr.amountToken / 1e18
-        return tt
-      }, 0),
-    [historyBuyPackages],
-  )
+  /* Total was buy */
+  const totalWasBuy = useMemo(() => {
+    try {
+      return (
+        historyBuyPackages &&
+        historyBuyPackages.reduce((total, curr) => {
+          const tt = total + +curr.amountToken * packageItem?.price
+          return tt
+        }, 0)
+      )
+    } catch (error) {
+      return 0
+    }
+  }, [historyBuyPackages, packageItem?.price])
 
+  /* Max can buy */
+  const maxBalanceCanBuy = useMemo(() => roundNumber(max - totalWasBuy, { scale: 4 }), [max, totalWasBuy])
+
+  /* Handle option percent */
+  const handleChangePercent = (percent) => {
+    try {
+      const balance = formatBigNumber(isBSC ? data?.value : nativeBalance?.data?.value)
+      const valueByPercent = +((+balance * percent) / 100 - 0.005).toFixed(5)
+      setUserInput(
+        roundNumber(valueByPercent > maxBalanceCanBuy ? maxBalanceCanBuy : valueByPercent, { scale: 4 }).toString(),
+      )
+    } catch (error) {
+      console.info(error)
+    }
+  }
+
+  // Buy now
   const handleConfirm = async (cbs) => {
     if (min === undefined || max === undefined) return
     if (!userInput) {
@@ -66,7 +89,7 @@ const Home = () => {
     }
 
     if (+userInput < min || +userInput > max) {
-      setErrorMess(`Enter input with Min: ${min} and Max: ${max}`)
+      setErrorMess(`Enter input with Min: ${min} and Max: ${maxBalanceCanBuy}`)
       return
     }
     setErrorMess('')
@@ -101,30 +124,15 @@ const Home = () => {
     }
   }
 
-  const handleChangePercent = (percent) => {
-    const pTotalWasBuy = totalWasBuy || 0
-    if (max) {
-      try {
-        const maxCanBuy = max + pTotalWasBuy
-        const balance = formatBigNumber(isBSC ? data?.value : nativeBalance?.data?.value)
-        const valueByPercent = +((+balance * percent) / 100 - 0.005).toFixed(5)
-        setUserInput(roundNumber(valueByPercent > maxCanBuy ? maxCanBuy : valueByPercent, { scale: 4 }).toString())
-      } catch (error) {
-        console.info(error)
-      }
-    }
-  }
-
   const userOutput = useMemo(() => {
-    const pka = packages?.[viewCard - 1]
-    if (pka) {
-      if (pka.price > 0) {
-        return roundNumber(+userInput / pka.price)
+    if (packageItem) {
+      if (packageItem.price > 0) {
+        return roundNumber(+userInput / packageItem.price)
       }
       return userInput
     }
     return undefined
-  }, [packages, viewCard, userInput])
+  }, [packageItem, userInput])
 
   return (
     <StyledHome>
@@ -136,7 +144,7 @@ const Home = () => {
             renderContent={
               viewCard === VIEW_CARD.LOCK ? (
                 <CardContentLockAndLoad
-                  max={max}
+                  max={maxBalanceCanBuy}
                   userInput={userInput}
                   setUserInput={setUserInput}
                   errorMess={errorMess}
@@ -144,7 +152,7 @@ const Home = () => {
                 />
               ) : (
                 <CardContentPresale
-                  max={max}
+                  max={maxBalanceCanBuy}
                   userInput={userInput}
                   setUserInput={setUserInput}
                   errorMess={errorMess}
