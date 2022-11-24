@@ -13,6 +13,7 @@ import { DEFAULT_TOKEN_DECIMAL } from 'config'
 import useCatchTxError from 'hooks/useCatchTxError'
 import { useToast } from '@pancakeswap/uikit'
 import { roundNumber } from 'library/helpers/Number'
+import { useHistoryBuyPackagesByAccount } from './hooks/useHistoryBuyPackages'
 import CardLeft, { VIEW_CARD } from './components/CardLeft'
 import CardRight from './components/CardRight'
 import useMinMaxBuy from './hooks/useMinMaxBuy'
@@ -37,11 +38,25 @@ const Home = () => {
   const nativeBalance = useBalance({ addressOrName: account, enabled: !isBSC })
   const { data } = useBalance({ addressOrName: account, chainId: ChainId.BSC })
 
+  /* contract */
   const contractSellPull = useSellPullContract()
   const { packages } = useGetPackages()
   const { min, max } = useMinMaxBuy()
 
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
+
+  const [historyBuyPackages, fetchHistoryBuyPackages] = useHistoryBuyPackagesByAccount(account, viewCard)
+
+  /* total was buy */
+  const totalWasBuy = useMemo(
+    () =>
+      historyBuyPackages &&
+      historyBuyPackages.reduce((total, curr) => {
+        const tt = total + +curr.amountToken / 1e18
+        return tt
+      }, 0),
+    [historyBuyPackages],
+  )
 
   const handleConfirm = async (cbs) => {
     if (min === undefined || max === undefined) return
@@ -78,6 +93,7 @@ const Home = () => {
     if (receipt?.status) {
       setUserInput('')
       cbs()
+      fetchHistoryBuyPackages?.()
       toastSuccess(
         'Buy success',
         <ToastDescriptionWithTx txHash={receipt.transactionHash}>Your funds have been success</ToastDescriptionWithTx>,
@@ -86,11 +102,16 @@ const Home = () => {
   }
 
   const handleChangePercent = (percent) => {
-    try {
-      const balance = formatBigNumber(isBSC ? data?.value : nativeBalance?.data?.value)
-      setUserInput(((+balance * percent) / 100 - 0.005).toFixed(5))
-    } catch (error) {
-      console.info(error)
+    const pTotalWasBuy = totalWasBuy || 0
+    if (max) {
+      try {
+        const maxCanBuy = max + pTotalWasBuy
+        const balance = formatBigNumber(isBSC ? data?.value : nativeBalance?.data?.value)
+        const valueByPercent = +((+balance * percent) / 100 - 0.005).toFixed(5)
+        setUserInput(roundNumber(valueByPercent > maxCanBuy ? maxCanBuy : valueByPercent, { scale: 4 }).toString())
+      } catch (error) {
+        console.info(error)
+      }
     }
   }
 

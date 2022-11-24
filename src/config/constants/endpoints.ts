@@ -31,3 +31,7 @@ export const FARM_API = 'https://farms.pancake-swap.workers.dev'
 export const BIT_QUERY = 'https://graphql.bitquery.io'
 
 export const ACCESS_RISK_API = 'https://red.alert.pancakeswap.com/red-api'
+
+// New
+export const SELL_PULL_ETH = 'https://api.thegraph.com/subgraphs/name/lokialice/sell-pulse-eth'
+export const SELL_PULL_BEP20 = 'http://171.244.136.194:8000/subgraphs/name/pulseswap/sellpulse'

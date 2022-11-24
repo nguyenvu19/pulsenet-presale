@@ -1,66 +1,43 @@
 /* eslint-disable no-param-reassign */
 import numeral from 'numeral'
-import { roundTo } from 'round-to'
 import BigNumber from 'bignumber.js'
 
 export const isNumber = (value) => {
-  if (value !== undefined && value !== null && !Number.isNaN(value)) {
+  if (value !== undefined && value !== null && !Number.isNaN(+value)) {
     return true
   }
   return false
 }
 
 // ================================================================================
-export function roundNumber(n, options) {
-  const { scale = 2, decimals } = options || {
-    scale: 2,
+export function roundNumber(n, options?: { scale?: number; scaleSmall?: number; decimals?: number }) {
+  const {
+    scale = 3,
+    scaleSmall,
+    decimals,
+  } = options || {
+    scale: 3,
   }
+
+  let customScale = scale
   if (!isNumber(n)) return 0
+  if (scaleSmall && n > 10) {
+    customScale = scaleSmall
+  }
   if (n && decimals) {
     n = new BigNumber(n).shiftedBy(-decimals).toNumber()
   }
   if (+n > 1e17) return Math.round(+n)
   const num = typeof +n !== 'number' ? 0 : parseFloat(n)
   if (!`${num}`.includes('e')) {
-    return +`${Math.floor(`${num}e+${scale}`)}e-${scale}`
+    return +`${Math.floor(+`${num}e+${customScale}`)}e-${customScale}`
   }
   const arr = `${num}`.split('e')
   let sig = ''
-  if (+arr[1] + scale > 0) {
+  if (+arr[1] + customScale > 0) {
     sig = '+'
   }
-  return +`${Math.floor(`${+arr[0]}e${sig}${+arr[1] + scale}`)}e-${scale}`
-}
-
-// ================================================================================
-export function formatNumber(nb, options) {
-  const { scale = 3, decimals } = options || {
-    scale: 3,
-  }
-  if (!isNumber(nb)) return 0
-  if (nb && decimals) {
-    nb = new BigNumber(nb).shiftedBy(-decimals).toNumber()
-  }
-
-  const n = roundTo.up(parseFloat(nb), scale)
-
-  const sign = +n < 0 ? '-' : ''
-  const toStr = n.toString()
-  if (!/e/i.test(toStr)) {
-    return n
-  }
-  const [lead, decimal, pow] = n
-    .toString()
-    .replace(/^-/, '')
-    .replace(/^([0-9]+)(e.*)/, '$1.$2')
-    .split(/e|\./)
-  return +pow < 0
-    ? `${sign}0.${'0'.repeat(Math.max(Math.abs(pow) - 1 || 0, 0))}${lead}${decimal}`
-    : sign +
-        lead +
-        (+pow >= decimal.length
-          ? decimal + '0'.repeat(Math.max(+pow - decimal.length || 0, 0))
-          : `${decimal.slice(0, +pow)}.${decimal.slice(+pow)}`)
+  return +`${Math.floor(+`${+arr[0]}e${sig}${+arr[1] + customScale}`)}e-${customScale}`
 }
 
 // ================================================================================
@@ -69,8 +46,6 @@ export function formatNumber(nb, options) {
 // Intended to be used for tokens whose value is less than $1
 // https://stackoverflow.com/a/23887837
 export const getFirstThreeNonZeroDecimals = (value) => value.toFixed(9).match(/^-?\d*\.?0*\d{0,2}/)[0]
-
-// export type formatAmountNotation = 'compact' | 'standard'
 
 /**
  * This function is used to format token prices, liquidity, amount of tokens in TX, and in general any numbers on info section
@@ -81,7 +56,18 @@ export const getFirstThreeNonZeroDecimals = (value) => value.toFixed(9).match(/^
  * @param isInteger - if true the values will contain decimal part only if the amount is > 1000
  * @returns formatted string ready to be displayed
  */
-export const formatAmount = (amount, options) => {
+export const formatAmount = (
+  amount,
+  options?: {
+    notation?: string
+    displayThreshold?: number
+    tokenPrecision?: boolean
+    isInteger?: boolean
+    roundUp?: boolean
+    decimals?: number
+    scale?: number
+  },
+) => {
   const {
     notation = 'compact',
     displayThreshold,
