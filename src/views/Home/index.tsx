@@ -43,7 +43,7 @@ const Home = () => {
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
 
   const { packages } = useGetPackages()
-  const packageItem = useMemo(() => packages?.[viewCard], [packages, viewCard])
+  const packageItem = useMemo(() => packages?.[viewCard - 1], [packages, viewCard])
   const { min, max } = useMinMaxBuy()
 
   const [historyBuyPackages, fetchHistoryBuyPackages] = useHistoryBuyPackagesByAccount(account, viewCard)
