@@ -32,6 +32,7 @@ const fetchDataFromGraph = async (
       query buyPackages { 
         buyPackages(${whereString}) {
           id
+          amountBuy
           amountToken
           createdTime
           packageId

@@ -12,7 +12,7 @@ import { formatBigNumber } from 'utils/formatBalance'
 import { DEFAULT_TOKEN_DECIMAL } from 'config'
 import useCatchTxError from 'hooks/useCatchTxError'
 import { useToast } from '@pancakeswap/uikit'
-import { roundNumber } from 'library/helpers/Number'
+import { parseBigNumber, roundNumber } from 'library/helpers/Number'
 import { useHistoryBuyPackagesByAccount } from './hooks/useHistoryBuyPackages'
 import CardLeft, { VIEW_CARD } from './components/CardLeft'
 import CardRight from './components/CardRight'
@@ -54,14 +54,14 @@ const Home = () => {
       return (
         historyBuyPackages &&
         historyBuyPackages.reduce((total, curr) => {
-          const tt = total + +curr.amountToken * packageItem?.price
+          const tt = total + parseBigNumber(curr.amountBuy)
           return tt
         }, 0)
       )
     } catch (error) {
       return 0
     }
-  }, [historyBuyPackages, packageItem?.price])
+  }, [historyBuyPackages])
 
   /* Max can buy */
   const maxBalanceCanBuy = useMemo(() => roundNumber(max - totalWasBuy, { scale: 4 }), [max, totalWasBuy])

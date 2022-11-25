@@ -133,3 +133,12 @@ export const formatAmount = (
   // toUpperCase is needed cause numeral doesn't have support for capital K M B out of the box
   return numeral(amountWithPrecision).format(format).toUpperCase()
 }
+
+export const parseBigNumber = (amount, decimals = 18) => {
+  if (amount === 0) return 0
+  if (!amount) return amount
+  if (amount && decimals) {
+    amount = new BigNumber(amount).shiftedBy(-decimals).toNumber()
+  }
+  return amount
+}
