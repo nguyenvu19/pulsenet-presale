@@ -134,11 +134,13 @@ export const formatAmount = (
   return numeral(amountWithPrecision).format(format).toUpperCase()
 }
 
-export const parseBigNumber = (amount, decimals = 18) => {
+export const parseBigNumber = (amount, decimals = -18) => {
   if (amount === 0) return 0
   if (!amount) return amount
-  if (amount && decimals) {
-    amount = new BigNumber(amount).shiftedBy(-decimals).toNumber()
+  if (decimals < 0) {
+    amount = new BigNumber(amount).shiftedBy(decimals).toNumber()
+  } else {
+    amount = new BigNumber(amount).times(decimals).toString()
   }
   return amount
 }

@@ -46,18 +46,20 @@ const Home = () => {
   const packageItem = useMemo(() => packages?.[viewCard - 1], [packages, viewCard])
   const { min, max } = useMinMaxBuy()
 
-  const [historyBuyPackages, fetchHistoryBuyPackages] = useHistoryBuyPackagesByAccount({ account })
+  const [historyBuyPackages, fetchHistoryBuyPackages] = useHistoryBuyPackagesByAccount({
+    account: '0x04209F1c47201cC2483b1d447409608227f56046',
+  })
 
   /* Total was buy */
   const totalWasBuy = useMemo(() => {
     try {
-      return (
+      const totalBuy =
         historyBuyPackages &&
         historyBuyPackages.reduce((total, curr) => {
           const tt = total + parseBigNumber(curr.amountBuy)
           return tt
         }, 0)
-      )
+      return roundNumber(totalBuy, { scale: 6 })
     } catch (error) {
       return 0
     }
@@ -65,10 +67,6 @@ const Home = () => {
 
   /* Max can buy */
   const maxBalanceCanBuy = useMemo(() => roundNumber(max - totalWasBuy, { scale: 4 }), [max, totalWasBuy])
-
-  // console.log('max', max)
-  // console.log('totalWasBuy', totalWasBuy)
-  // console.log(max - totalWasBuy)
 
   /* Handle option percent */
   const handleChangePercent = (percent) => {
