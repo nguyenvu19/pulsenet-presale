@@ -12,24 +12,19 @@ import { formatBigNumber } from 'utils/formatBalance'
 import CopyAddress from './CopyAddress'
 import WalletRow from './WalletRow'
 
-const COLORS = {
-  ETH: '#627EEA',
-  BNB: '#14151A',
-}
-
 interface WalletInfoProps {
   hasLowNativeBalance: boolean
   onDismiss: InjectedModalProps['onDismiss']
 }
 
-const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowNativeBalance, onDismiss }) => {
+const WalletInfo: React.FC<WalletInfoProps> = ({ onDismiss }) => {
   const { t } = useTranslation()
   const { account, chainId, chain } = useActiveWeb3React()
   const isBSC = chainId === ChainId.BSC
-  const bnbBalance = useBalance({ addressOrName: account, chainId: ChainId.BSC })
+  // const bnbBalance = useBalance({ addressOrName: account, chainId: ChainId.BSC })
   const nativeBalance = useBalance({ addressOrName: account, enabled: !isBSC })
   const native = useNativeCurrency()
-  const { balance: cakeBalance, fetchStatus: cakeFetchStatus } = useGetCakeBalance()
+  // const { balance: cakeBalance, fetchStatus: cakeFetchStatus } = useGetCakeBalance()
   const { logout } = useAuth()
 
   const handleLogout = () => {

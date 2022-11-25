@@ -66,6 +66,10 @@ const Home = () => {
   /* Max can buy */
   const maxBalanceCanBuy = useMemo(() => roundNumber(max - totalWasBuy, { scale: 4 }), [max, totalWasBuy])
 
+  // console.log('max', max)
+  // console.log('totalWasBuy', totalWasBuy)
+  // console.log(max - totalWasBuy)
+
   /* Handle option percent */
   const handleChangePercent = (percent) => {
     try {
