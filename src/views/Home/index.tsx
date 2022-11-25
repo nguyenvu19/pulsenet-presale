@@ -46,7 +46,7 @@ const Home = () => {
   const packageItem = useMemo(() => packages?.[viewCard - 1], [packages, viewCard])
   const { min, max } = useMinMaxBuy()
 
-  const [historyBuyPackages, fetchHistoryBuyPackages] = useHistoryBuyPackagesByAccount(account, viewCard)
+  const [historyBuyPackages, fetchHistoryBuyPackages] = useHistoryBuyPackagesByAccount({ account })
 
   /* Total was buy */
   const totalWasBuy = useMemo(() => {

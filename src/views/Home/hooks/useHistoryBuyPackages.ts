@@ -91,10 +91,11 @@ export const useHistoryBuyPackages = (
 /**
  * History buy packages by account
  */
-export const useHistoryBuyPackagesByAccount = (
+export const useHistoryBuyPackagesByAccount = ({
   account,
-  packageId,
-): [
+}: {
+  account?: string
+}): [
   result: HistoryBuyPackageType[],
   fetchData: () => void,
   params: BuyPackagesQuery,
@@ -105,17 +106,16 @@ export const useHistoryBuyPackagesByAccount = (
   const [result, setResult] = useState<HistoryBuyPackageType[] | undefined>()
 
   useEffect(() => {
-    if (account && packageId) {
+    if (account) {
       setParams((prev) => ({
         ...prev,
         userAddress: account,
-        packageId,
       }))
     }
-  }, [account, packageId])
+  }, [account])
 
   const fetchData = useCallback(async () => {
-    if (params.userAddress && params.packageId) {
+    if (params.userAddress) {
       const { data, status } = await fetchDataFromGraph(params, chainId)
       if (status) {
         setResult(data)
