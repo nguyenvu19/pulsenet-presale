@@ -47,7 +47,7 @@ const Home = () => {
   const { min, max } = useMinMaxBuy()
 
   const [historyBuyPackages, fetchHistoryBuyPackages] = useHistoryBuyPackagesByAccount({
-    account: '0x04209F1c47201cC2483b1d447409608227f56046',
+    account,
   })
 
   /* Total was buy */
@@ -73,9 +73,8 @@ const Home = () => {
     try {
       const balance = formatBigNumber(isBSC ? data?.value : nativeBalance?.data?.value)
       const valueByPercent = +((+balance * percent) / 100 - 0.005).toFixed(5)
-      setUserInput(
-        roundNumber(valueByPercent > maxBalanceCanBuy ? maxBalanceCanBuy : valueByPercent, { scale: 4 }).toString(),
-      )
+      const maxBuy = valueByPercent > maxBalanceCanBuy ? maxBalanceCanBuy : valueByPercent
+      setUserInput(roundNumber(maxBuy > 0 ? maxBuy : 0, { scale: 4 }).toString())
     } catch (error) {
       console.info(error)
     }

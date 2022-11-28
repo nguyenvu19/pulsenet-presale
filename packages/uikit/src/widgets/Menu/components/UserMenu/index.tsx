@@ -51,7 +51,6 @@ const Menu = styled.div<{ isOpen: boolean }>`
 
 const UserMenu: React.FC<UserMenuProps> = ({ overlay, children, disabled, placement = "bottom-end", ...props }) => {
   const [isOpen, setIsOpen] = useState(false);
-  console.log(isOpen);
 
   const { isMobile } = useMatchBreakpoints();
   const [targetRef, setTargetRef] = useState<HTMLDivElement | null>(null);
