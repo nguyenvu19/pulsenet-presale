@@ -171,11 +171,10 @@ export const NetworkSwitcher = () => {
   }
 
   return (
-    <Box ref={cannotChangeNetwork ? targetRef : null} height="100%">
+    <Box ref={cannotChangeNetwork ? targetRef : null}>
       {cannotChangeNetwork && tooltipVisible && tooltip}
       <UserMenu
         mr="-30px"
-        placement="bottom"
         disabled={cannotChangeNetwork}
         overlay={() =>
           isNotMatched ? (

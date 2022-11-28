@@ -85,7 +85,7 @@ function ConnectModal<T>({ login, onDismiss = () => null, displayCount = 3, t, w
                 <WalletCard walletConfig={wallet} login={login} onDismiss={onDismiss} />
               </Flex>
             ))}
-            {!showMore && walletsToShow.length > 4 && <MoreWalletCard t={t} onClick={() => setShowMore(true)} />}
+            {/* {!showMore && walletsToShow.length > 4 && <MoreWalletCard t={t} onClick={() => setShowMore(true)} />} */}
           </Grid>
         </WalletWrapper>
         {/* <Box p="24px">

@@ -58,7 +58,6 @@ export const ModalContainer = styled(MotionBox)<{ $maxWidth: string }>`
   overflow: hidden;
   background: #111b1e;
   box-shadow: 0px 20px 36px -8px rgba(14, 14, 44, 0.1), 0px 1px 1px rgba(0, 0, 0, 0.05);
-  border: 1px solid #20b14c;
   border-radius: 20px 20px 0px 0px;
   max-height: calc(var(--vh, 1vh) * 100);
   z-index: ${({ theme }) => theme.zIndices.modal};
@@ -68,6 +67,9 @@ export const ModalContainer = styled(MotionBox)<{ $maxWidth: string }>`
   bottom: 0;
   min-height: 300px;
 
+  ${({ theme }) => theme.mediaQueries.sm} {
+    border: 1px solid #20b14c;
+  }
   ${({ theme }) => theme.mediaQueries.md} {
     position: auto;
     bottom: auto;

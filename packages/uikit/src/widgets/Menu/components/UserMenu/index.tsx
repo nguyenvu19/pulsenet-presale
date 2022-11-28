@@ -21,8 +21,6 @@ export const LabelText = styled.div`
 const Menu = styled.div<{ isOpen: boolean }>`
   background: #111b1e;
   border-radius: 12px;
-  /* background-color: ${({ theme }) => theme.card.background};
-  border: 1px solid ${({ theme }) => theme.colors.cardBorder}; */
   border-radius: 16px;
   padding-bottom: 4px;
   padding-top: 4px;
@@ -30,6 +28,16 @@ const Menu = styled.div<{ isOpen: boolean }>`
   width: 280px;
   visibility: visible;
   z-index: 1001;
+
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  ${({ theme }) => theme.mediaQueries.sm} {
+    left: 0;
+    transform: unset;
+  }
 
   ${({ isOpen }) =>
     !isOpen &&
@@ -39,30 +47,21 @@ const Menu = styled.div<{ isOpen: boolean }>`
   `}
 
   border-radius: 8px;
-  /* 
-  ${UserMenuItem}:first-child {
-    border-radius: 8px 8px 0 0;
-  }
-
-  ${UserMenuItem}:last-child {
-    border-radius: 0 0 8px 8px;
-  } */
 `;
 
 const UserMenu: React.FC<UserMenuProps> = ({ overlay, children, disabled, placement = "bottom-end", ...props }) => {
   const [isOpen, setIsOpen] = useState(false);
+  console.log(isOpen);
+
   const { isMobile } = useMatchBreakpoints();
   const [targetRef, setTargetRef] = useState<HTMLDivElement | null>(null);
   const [tooltipRef, setTooltipRef] = useState<HTMLDivElement | null>(null);
-  const { styles, attributes } = usePopper(targetRef, tooltipRef, {
-    strategy: "fixed",
-    placement,
-    modifiers: [{ name: "offset", options: { offset: [0, isMobile ? -26 : -56] } }],
-  });
 
   useEffect(() => {
     const showDropdownMenu = () => {
-      setIsOpen(true);
+      if (!isMobile) {
+        setIsOpen(true);
+      }
     };
 
     const hideDropdownMenu = (evt: MouseEvent | TouchEvent) => {
@@ -80,22 +79,15 @@ const UserMenu: React.FC<UserMenuProps> = ({ overlay, children, disabled, placem
       targetRef?.removeEventListener("mouseenter", showDropdownMenu);
       targetRef?.removeEventListener("mouseleave", hideDropdownMenu);
     };
-  }, [targetRef, tooltipRef, setIsOpen]);
+  }, [isMobile, targetRef, tooltipRef, setIsOpen]);
 
   return (
-    <Flex
-      alignItems="center"
-      height="100%"
-      ref={setTargetRef}
-      onTouchStart={() => {
-        setIsOpen((s) => !s);
-      }}
-      {...props}
-    >
-      {children}
-      {/* {!disabled && <ChevronDownIcon color="text" width="24px" />} */}
+    <Flex position="relative" alignItems="center" ref={setTargetRef} {...props}>
+      <div onClick={() => setIsOpen((s) => !s)} role="presentation">
+        {children}
+      </div>
       {!disabled && (
-        <Menu style={styles.popper} ref={setTooltipRef} {...attributes.popper} isOpen={isOpen}>
+        <Menu isOpen={isOpen}>
           <Box onClick={() => setIsOpen(false)}>{overlay?.({ isOpen })}</Box>
         </Menu>
       )}

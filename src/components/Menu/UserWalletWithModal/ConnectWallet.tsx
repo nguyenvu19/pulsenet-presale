@@ -15,14 +15,14 @@ export const StyledUserMenu = styled(Flex)`
   position: relative;
 
   border-radius: 0 12px 12px 0;
-
-  background-image: url('/images/button-right.png');
+  background-image: url('/images/button-right-mobile.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: left center;
   ${({ theme }) => theme.mediaQueries.sm} {
     width: 288px;
     padding-left: 46px;
+    background-image: url('/images/button-right.png');
   }
 
   img {
