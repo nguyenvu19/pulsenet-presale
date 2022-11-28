@@ -9,7 +9,7 @@ import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { SafeConnector } from '@gnosis.pm/safe-apps-wagmi'
 
-const CHAINS = process.env.NODE_ENV === 'production' ? [bsc, mainnet] : [bsc, mainnet, bscTest, rinkeby, goerli]
+const CHAINS = process.env.NODE_ENV === 'production' ? [bsc, mainnet] : [bscTest, goerli]
 
 const getNodeRealUrl = (networkName: string) => {
   let host = null
