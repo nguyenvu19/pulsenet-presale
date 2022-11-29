@@ -14,6 +14,7 @@
     "start": "next start",
     "dev:prod": "env-cmd -f .env.development next dev",
     "build:dev": "env-cmd -f .env.development next build",
+    "build:stag": "env-cmd -f .env.staging next build",
     "build:prod": "env-cmd -f .env.production next build",
     "test": "jest && yarn turbo run test",
     "test:watch": "jest --watch",
