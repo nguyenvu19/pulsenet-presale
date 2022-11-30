@@ -31,11 +31,11 @@ const StyledCardRight = styled.div`
 
     img {
       width: 100%;
-      max-width: 120px;
+      max-width: 80px;
       height: auto;
       object-fit: contain;
       ${({ theme }) => theme.mediaQueries.sm} {
-        max-width: 184px;
+        max-width: 100px;
       }
     }
   }

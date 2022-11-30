@@ -20,20 +20,6 @@ export function UnsupportedNetworkModal({ pageSupportedChains }: { pageSupported
   const { isConnected } = useAccount()
   const { logout } = useAuth()
   const { t } = useTranslation()
-  const menuItems = useMenuItems()
-  const { pathname } = useRouter()
-
-  const title = useMemo(() => {
-    const activeMenuItem = getActiveMenuItem({ menuConfig: menuItems, pathname })
-    const activeSubMenuItem = getActiveSubMenuItem({ menuItem: activeMenuItem, pathname })
-
-    return activeSubMenuItem?.label || activeMenuItem?.label
-  }, [menuItems, pathname])
-
-  const supportedMainnetChains = useMemo(
-    () => chains.filter((chain) => !chain.testnet && pageSupportedChains?.includes(chain.id)),
-    [chains, pageSupportedChains],
-  )
 
   return (
     <Modal title={t('Check your network')} hideCloseButton headerBackground="transparent" maxWidth="600px">
@@ -55,7 +41,7 @@ export function UnsupportedNetworkModal({ pageSupportedChains }: { pageSupported
             height="68px"
             isLoading={isLoading}
             onClick={() => {
-              if (supportedMainnetChains.map((c) => c.id).includes(chainId)) {
+              if (chains.map((c) => c.id).includes(chainId)) {
                 switchNetworkAsync(chainId)
               } else {
                 switchNetworkAsync(ChainId.BSC)
