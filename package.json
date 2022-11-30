@@ -12,7 +12,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "dev:prod": "env-cmd -f .env.development next dev",
+    "dev:prod": "env-cmd -f .env.production next dev",
     "build:dev": "env-cmd -f .env.development next build",
     "build:stag": "env-cmd -f .env.staging next build",
     "build:prod": "env-cmd -f .env.production next build",

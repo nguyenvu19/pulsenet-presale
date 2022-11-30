@@ -101,7 +101,7 @@ const CardRight = ({ account, onConfirm, userOutput }: Props) => {
   return (
     <StyledCardRight>
       <div className="box_head">
-        <img src="/images/card_right_box_head.png" alt="" />
+        <img src="/images/card_right_box_head2.png" alt="" />
       </div>
 
       <Box mb="24px">
@@ -118,9 +118,9 @@ const CardRight = ({ account, onConfirm, userOutput }: Props) => {
           placeholder="0.00"
         />
       </Box>
-      <Flex justifyContent="center" mb="24px">
+      {/* <Flex justifyContent="center" mb="24px">
         <Text>By confirm transaction you are agree with our terms & Private Policy!</Text>
-      </Flex>
+      </Flex> */}
       <Flex justifyContent="center">
         {account ? (
           <SubmitButtonStyled isLoading={loading} onClick={handleConfirm}>

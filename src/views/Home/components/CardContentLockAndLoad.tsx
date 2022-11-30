@@ -80,7 +80,7 @@ const CardContentLockAndLoad = ({ max, errorMess, userInput, setUserInput, onCha
 
             {/* <img src="/images/token_bnb.png" alt="" /> */}
             <Text style={{ whiteSpace: 'nowrap' }}>
-              {[56, 97].includes(chainId) ? '1' : '0.22'} {native?.symbol}
+              {[56, 97].includes(chainId) ? '1' : '0.25'} {native?.symbol}
             </Text>
           </BoxStyled>
           <div className="line_space" />
