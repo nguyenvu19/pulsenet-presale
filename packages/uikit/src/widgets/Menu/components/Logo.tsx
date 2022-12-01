@@ -46,7 +46,7 @@ const StyledLink = styled("a")`
   }
 `;
 
-const Logo: React.FC<Props> = ({ href }) => {
+const Logo: React.FC<any> = ({ href }) => {
   const { linkComponent } = useContext(MenuContext);
   const isAbsoluteUrl = href.startsWith("http");
   const innerLogo = (
