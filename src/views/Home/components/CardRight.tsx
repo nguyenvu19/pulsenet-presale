@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Flex, Box, Text, Button } from '@pancakeswap/uikit'
+import { Flex, Box, Text, Button, LogoWithTextIcon } from '@pancakeswap/uikit'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import styled from 'styled-components'
 import CardInput from './CardInput'
@@ -16,6 +16,7 @@ const StyledCardRight = styled.div`
     width: 100%;
     height: 160px;
     margin-bottom: 24px;
+    padding: 12px;
     border-radius: 16px;
     background-image: url('/images/card_right_box_head_bg.png');
     background-size: cover;
@@ -23,8 +24,10 @@ const StyledCardRight = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 
     ${({ theme }) => theme.mediaQueries.sm} {
+      padding: 24px;
       height: 242px;
       margin-bottom: 48px;
     }
@@ -37,6 +40,11 @@ const StyledCardRight = styled.div`
       ${({ theme }) => theme.mediaQueries.sm} {
         max-width: 140px;
       }
+    }
+
+    svg {
+      width: 100%;
+      max-width: 300px;
     }
   }
 `
@@ -101,7 +109,18 @@ const CardRight = ({ account, onConfirm, userOutput }: Props) => {
   return (
     <StyledCardRight>
       <div className="box_head">
-        <img src="/images/card_right_box_head2.png" alt="" />
+        {/* <img src="/images/card_right_box_head2.png" alt="" /> */}
+        <Flex width="100%" justifyContent="center" mb="16px">
+          <LogoWithTextIcon />
+        </Flex>
+
+        <Text fontSize="15px" mb="6px">
+          A decentralized exchange to offer a mandatory LP lock system with in-built contract scanner and a
+          user-friendly token vault with easy search-ability
+        </Text>
+        <Text fontSize="15px">
+          An all-in-one multi-utility multi-chain Dex with farming, staking, and much more with safety at its core
+        </Text>
       </div>
 
       <Box mb="24px">

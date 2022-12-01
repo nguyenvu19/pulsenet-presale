@@ -19,7 +19,7 @@ const getNodeRealUrl = (networkName: string) => {
       if (process.env.NEXT_PUBLIC_NODE_REAL_API_ETH) {
         // host = `eth-mainnet.nodereal.io/v1/${process.env.NEXT_PUBLIC_NODE_REAL_API_ETH}`
         // 9aa3d95b3bc440fa88ea12eaa4456161`
-        host = `mainnet.infura.io/v3/${process.env.NEXT_PUBLIC_NODE_REAL_API_ETH}`
+        host = `eth-mainnet-public.unifra.io`
       }
       break
     case 'rinkeby':

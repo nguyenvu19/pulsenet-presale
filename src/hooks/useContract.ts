@@ -369,5 +369,5 @@ export function useBCakeProxyContract(proxyContractAddress: string, withSignerIf
 export const useSellPullContract = (withSignerIfPossible = true) => {
   const { chainId } = useActiveChainId()
   const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
-  return useMemo(() => getSellPullContract(providerOrSigner, chainId), [providerOrSigner, chainId])
+  return useMemo(() => getSellPullContract(chainId, providerOrSigner), [providerOrSigner, chainId])
 }

@@ -366,6 +366,6 @@ export const getBCakeProxyContract = (proxyContractAddress: string, signer?: Sig
   return getContract({ abi: bCakeProxyAbi, address: proxyContractAddress, signer }) as BCakeProxy
 }
 
-export const getSellPullContract = (signer?: Signer | Provider, chainId?: number) => {
+export const getSellPullContract = (chainId?: number, signer?: Signer | Provider) => {
   return getContract({ abi: sellPullAbi, address: getSellPullAddress(chainId), signer }) as SellPullAbi
 }

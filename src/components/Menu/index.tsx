@@ -41,7 +41,7 @@ const Menu = ({ children }) => {
     <WrapMenu>
       <div className="nav">
         <Flex width="100%" height="100%">
-          <Logo isDark href="/" />
+          <Logo href="/" />
         </Flex>
         <Flex alignItems="center" height="100%">
           <NetworkSwitcher />

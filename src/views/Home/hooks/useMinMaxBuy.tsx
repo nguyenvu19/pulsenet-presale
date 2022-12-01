@@ -7,7 +7,7 @@ const useMinMaxBuy = () => {
     min: undefined,
     max: undefined,
   })
-  const contractSellPull = useSellPullContract()
+  const contractSellPull = useSellPullContract(false)
 
   useEffect(() => {
     const getData = async () => {
@@ -18,7 +18,7 @@ const useMinMaxBuy = () => {
           max: +formatBigNumber(max),
         })
       } catch (e) {
-        console.error(e)
+        console.error('fetch min max error', e)
       }
     }
     getData()
