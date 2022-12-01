@@ -66,13 +66,13 @@ function MyApp(props: AppProps<{ initialReduxState: any }>) {
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=5, minimum-scale=1, viewport-fit=cover"
         />
-        <meta name="description" content="Pulsenet" />
+        <meta name="description" content="PulseDex Presale" />
         <meta name="theme-color" content="#1FC7D4" />
         <meta name="twitter:image" content="https://url.com/images/graph.png" />
-        <meta name="twitter:description" content="Pulsenet" />
+        <meta name="twitter:description" content="PulseDex Presale" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Pulsenet" />
-        <title>Pulsenet</title>
+        <meta name="twitter:title" content="PulseDex Presale" />
+        <title>PulseDex Presale</title>
         {(Component as NextPageWithLayout).mp && (
           // eslint-disable-next-line @next/next/no-sync-scripts
           <script src="https://public.bnbstatic.com/static/js/mp-webview-sdk/webview-v1.0.0.min.js" id="mp-webview" />
