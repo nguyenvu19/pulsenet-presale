@@ -139,7 +139,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     <ProductionErrorBoundary>
       <ShowMenu>
         <Layout>
-          <Component {...pageProps} />
+          <Component {...pageProps} pageSupportedChains={Component.chains} />
         </Layout>
       </ShowMenu>
       <EasterEgg iterations={2} />

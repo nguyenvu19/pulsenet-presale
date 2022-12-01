@@ -30,8 +30,8 @@ export const StyledUserMenu = styled(Flex)`
   align-items: center;
   cursor: pointer;
   display: inline-flex;
-  width: 86px;
-  height: 44px;
+  width: 72px;
+  height: 36px;
   padding: 4px 8px;
   padding-left: 60px;
   position: relative;
@@ -45,11 +45,12 @@ export const StyledUserMenu = styled(Flex)`
   background-position: right center;
   ${({ theme }) => theme.mediaQueries.sm} {
     width: 288px;
+    height: 44px;
   }
 
   img {
-    width: 38px;
-    height: 38px;
+    width: auto;
+    height: 82%;
     position: absolute;
     top: 50%;
     left: 10px;
@@ -148,6 +149,7 @@ const WrongNetworkSelect = ({ switchNetwork, chainId }) => {
 export const NetworkSwitcher = () => {
   const { t } = useTranslation()
   const { chainId, isWrongNetwork, isNotMatched } = useActiveChainId()
+
   const { pendingChainId, isLoading, canSwitch, switchNetworkAsync } = useSwitchNetwork()
   const router = useRouter()
   const { account } = useWeb3React()
@@ -191,7 +193,7 @@ export const NetworkSwitcher = () => {
             //   t('Requesting')
             // ) :
             isWrongNetwork ? (
-              t('Wrong Network')
+              <Box display={['none', null, 'block']}> {t('Wrong Network')}</Box>
             ) : foundChain ? (
               <>
                 <Box display={['none', null, 'block']}>{foundChain.name}</Box>

@@ -44,7 +44,7 @@ export function UnsupportedNetworkModal({ pageSupportedChains }: { pageSupported
               if (chains.map((c) => c.id).includes(chainId)) {
                 switchNetworkAsync(chainId)
               } else {
-                switchNetworkAsync(ChainId.BSC)
+                switchNetworkAsync(pageSupportedChains[0] || ChainId.BSC)
               }
             }}
           >

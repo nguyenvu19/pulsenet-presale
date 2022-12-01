@@ -15,19 +15,23 @@ const blink = keyframes`
 `;
 
 const StyledLink = styled("a")`
+  width: 100%;
+  /* height: 100% */
   display: flex;
   align-items: center;
-  .mobile-icon {
+  /* .mobile-icon {
     width: 42px;
     ${({ theme }) => theme.mediaQueries.lg} {
       display: none;
     }
-  }
+  } */
   .desktop-icon {
-    width: 300px;
-    display: none;
+    width: 100%;
+    max-width: 200px;
+    /* display: none; */
     ${({ theme }) => theme.mediaQueries.lg} {
-      display: block;
+      /* display: block; */
+      max-width: 300px;
     }
   }
   .eye {
@@ -48,19 +52,19 @@ const Logo: React.FC<React.PropsWithChildren<Props>> = ({ isDark, href }) => {
   const isAbsoluteUrl = href.startsWith("http");
   const innerLogo = (
     <>
-      <LogoIcon className="mobile-icon" />
+      {/* <LogoIcon className="mobile-icon" /> */}
       <LogoWithTextIcon className="desktop-icon" isDark={isDark} />
     </>
   );
 
   return (
-    <Flex>
+    <Flex width="100%" height="100%" mr="12px">
       {isAbsoluteUrl ? (
-        <StyledLink as="a" href={href} aria-label="Pancake home page">
+        <StyledLink as="a" href={href} aria-label="">
           {innerLogo}
         </StyledLink>
       ) : (
-        <StyledLink href={href} as={linkComponent} aria-label="Pancake home page">
+        <StyledLink href={href} as={linkComponent} aria-label="">
           {innerLogo}
         </StyledLink>
       )}

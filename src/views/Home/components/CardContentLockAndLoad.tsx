@@ -60,6 +60,7 @@ export enum VIEW_CARD {
 interface Props {
   max?: number
   userInput?: string
+  pageSupportedChains: number[]
   setUserInput?: (v: any) => void
   errorMess?: string
   onChangePercent?: (p: number) => void
@@ -105,7 +106,7 @@ const CardContentLockAndLoad = ({ max, errorMess, userInput, setUserInput, onCha
         <CardInput
           value={userInput}
           labelLeft="Payment"
-          labelRight={`MAX: ${max ? max.toString().padStart(2, '0') : '-'}`}
+          labelRight={`MAX: ${max ? max.toString().padStart(2, '0') : '-'} ${native?.symbol}`}
           errorMess={errorMess}
           rightInput={
             <RightInputButton>

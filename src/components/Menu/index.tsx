@@ -40,7 +40,7 @@ const Menu = ({ children }) => {
   return (
     <WrapMenu>
       <div className="nav">
-        <Flex>
+        <Flex width="100%" height="100%">
           <Logo isDark href="/" />
         </Flex>
         <Flex alignItems="center" height="100%">

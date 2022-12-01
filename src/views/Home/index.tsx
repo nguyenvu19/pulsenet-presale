@@ -25,7 +25,7 @@ const StyledHome = styled.div`
   padding-bottom: 32px;
 `
 
-const Home = () => {
+const Home = ({ pageSupportedChains }) => {
   const { toastSuccess } = useToast()
   const { account, chainId } = useActiveWeb3React()
 
@@ -148,6 +148,7 @@ const Home = () => {
                   userInput={userInput}
                   setUserInput={setUserInput}
                   errorMess={errorMess}
+                  pageSupportedChains={pageSupportedChains}
                   onChangePercent={handleChangePercent}
                 />
               ) : (

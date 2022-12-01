@@ -8,7 +8,7 @@ export const StyledUserMenu = styled(Flex)`
   cursor: pointer;
   display: inline-flex;
   width: 170px;
-  height: 44px;
+  height: 36px;
   padding: 4px 8px;
   padding-left: 40px;
   margin-left: 0;
@@ -21,22 +21,25 @@ export const StyledUserMenu = styled(Flex)`
   background-position: left center;
   ${({ theme }) => theme.mediaQueries.sm} {
     width: 288px;
+    height: 44px;
     padding-left: 46px;
     background-image: url('/images/button-right.png');
   }
 
   img {
-    width: 30px;
-    height: auto;
+    width: auto;
+    height: 86%;
     object-fit: contain;
     margin-right: 6px;
   }
 `
 export const LabelText = styled.div`
+  font-size: 14px;
   color: ${({ theme }) => theme.colors.text};
   font-weight: 600;
 
   ${({ theme }) => theme.mediaQueries.sm} {
+    font-size: 16px;
     margin-left: 8px;
     margin-right: 4px;
   }

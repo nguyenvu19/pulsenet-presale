@@ -37,6 +37,7 @@ export function useSwitchNetwork() {
 
   const switchNetworkAsync = useCallback(
     async (chainId: number) => {
+      console.log('chainId', chainId)
       if (isConnected && typeof _switchNetworkAsync === 'function') {
         if (isLoading) return
         setLoading(true)

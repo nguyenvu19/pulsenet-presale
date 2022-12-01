@@ -104,7 +104,7 @@ const CardContentPresale = ({ max, errorMess, userInput, setUserInput, onChangeP
         <CardInput
           value={userInput}
           labelLeft="Payment"
-          labelRight={`MAX: ${max ? max.toString().padStart(2, '0') : '-'}`}
+          labelRight={`MAX: ${max ? max.toString().padStart(2, '0') : '-'} ${native?.symbol}`}
           errorMess={errorMess}
           rightInput={
             <RightInputButton>
