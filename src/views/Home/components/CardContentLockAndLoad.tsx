@@ -60,7 +60,6 @@ export enum VIEW_CARD {
 interface Props {
   max?: number
   userInput?: string
-  pageSupportedChains: number[]
   setUserInput?: (v: any) => void
   errorMess?: string
   onChangePercent?: (p: number) => void
