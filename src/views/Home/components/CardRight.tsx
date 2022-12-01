@@ -5,18 +5,19 @@ import styled from 'styled-components'
 import CardInput from './CardInput'
 
 const StyledCardRight = styled.div`
-  padding: 24px;
+  padding: 24px 12px 12px;
   background: #111b1e;
   border: 1px solid #008037;
   border-radius: 12px;
   ${({ theme }) => theme.mediaQueries.sm} {
     min-height: 565px;
+    padding: 24px;
   }
   .box_head {
     width: 100%;
-    height: 160px;
+    /* height: 160px; */
     margin-bottom: 24px;
-    padding: 12px;
+    padding: 16px;
     border-radius: 16px;
     background-image: url('/images/card_right_box_head_bg.png');
     background-size: cover;
@@ -44,7 +45,10 @@ const StyledCardRight = styled.div`
 
     svg {
       width: 100%;
-      max-width: 300px;
+      max-width: 160px;
+      ${({ theme }) => theme.mediaQueries.sm} {
+        max-width: 300px;
+      }
     }
   }
 `
@@ -114,11 +118,11 @@ const CardRight = ({ account, onConfirm, userOutput }: Props) => {
           <LogoWithTextIcon />
         </Flex>
 
-        <Text fontSize="15px" mb="6px">
+        <Text fontSize={['13px', , '15px']} mb="6px">
           A decentralized exchange to offer a mandatory LP lock system with in-built contract scanner and a
           user-friendly token vault with easy search-ability
         </Text>
-        <Text fontSize="15px">
+        <Text fontSize={['13px', , '15px']}>
           An all-in-one multi-utility multi-chain Dex with farming, staking, and much more with safety at its core
         </Text>
       </div>

@@ -25,7 +25,10 @@ const BoxStyled = styled.div`
   }
 `
 const CardContent = styled.div`
-  padding: 24px;
+  padding: 12px 12px 32px;
+  ${({ theme }) => theme.mediaQueries.sm} {
+    padding: 24px;
+  }
   .line_space {
     width: 16px;
     height: 4px;

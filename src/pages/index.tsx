@@ -1,4 +1,4 @@
-import Home from '../views/Home'
+import Home from 'views/Home'
 
 const pageSupportedChains = process.env.NEXT_PUBLIC_NODE_ENV === 'development' ? [5, 97] : [1, 56]
 
