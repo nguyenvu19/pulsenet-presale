@@ -116,7 +116,7 @@ const CardContentPresale = ({ max, errorMess, userInput, setUserInput, onChangeP
             </RightInputButton>
           }
           placeholder="0.00"
-          onChange={(e) => setUserInput(e.target.value)}
+          onUserInput={setUserInput}
         />
       </Box>
 

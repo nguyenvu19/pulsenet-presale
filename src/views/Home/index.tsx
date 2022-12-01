@@ -143,7 +143,6 @@ const Home = ({ pageSupportedChains }: { pageSupportedChains: number[] }) => {
   }
 
   const handleUserInput = (value) => {
-    if (+value > 1e14) return
     detectError(value, () => null)
     setUserInput(value)
   }

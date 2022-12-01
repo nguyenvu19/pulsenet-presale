@@ -53,7 +53,25 @@ interface Props {
   [t: string]: any
 }
 
-const CardInput: React.FC<Props> = ({ labelLeft, labelRight, rightInput, errorMess, placeholder, ...props }) => {
+const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`) // match escaped "." characters via in a non-capturing group
+function escapeRegExp(string: string): string {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // $& means the whole matched string
+}
+
+const CardInput: React.FC<Props> = ({
+  labelLeft,
+  labelRight,
+  rightInput,
+  errorMess,
+  placeholder,
+  onUserInput,
+  ...props
+}) => {
+  const enforcer = (nextUserInput: string) => {
+    if (nextUserInput === '' || inputRegex.test(escapeRegExp(nextUserInput))) {
+      onUserInput(nextUserInput)
+    }
+  }
   return (
     <StyledInput>
       <Flex mb="6px" justifyContent="space-between">
@@ -69,7 +87,20 @@ const CardInput: React.FC<Props> = ({ labelLeft, labelRight, rightInput, errorMe
         )}
       </Flex>
       <div className="input_value">
-        <input placeholder={placeholder} {...props} />
+        <input
+          autoComplete="off"
+          autoCorrect="off"
+          pattern="^[0-9]*[.,]?[0-9]*$"
+          placeholder={placeholder || '0.0'}
+          minLength={1}
+          maxLength={14}
+          spellCheck="false"
+          onChange={(event) => {
+            // replace commas with periods, because we exclusively uses period as the decimal separator
+            enforcer(event.target.value.replace(/,/g, '.'))
+          }}
+          {...props}
+        />
         <div className="right_input">{rightInput}</div>
       </div>
       {errorMess && (

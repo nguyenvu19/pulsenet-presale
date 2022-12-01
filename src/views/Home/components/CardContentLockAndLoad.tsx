@@ -118,7 +118,7 @@ const CardContentLockAndLoad = ({ max, native, errorMess, userInput, setUserInpu
             </RightInputButton>
           }
           placeholder="0.00"
-          onChange={(e) => setUserInput(e.target.value)}
+          onUserInput={setUserInput}
         />
       </Box>
 
