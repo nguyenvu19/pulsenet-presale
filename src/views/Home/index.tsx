@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { ChainId } from '@pancakeswap/sdk'
 import styled from 'styled-components'
 import { Row, Col } from 'antd'
@@ -6,6 +6,7 @@ import { useBalance } from 'wagmi'
 import BigNumber from 'bignumber.js'
 import { useSellPullContract } from 'hooks/useContract'
 
+import useNativeCurrency from 'hooks/useNativeCurrency'
 import { ToastDescriptionWithTx } from 'components/Toast'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { formatBigNumber } from 'utils/formatBalance'
@@ -42,6 +43,7 @@ const Home = ({ pageSupportedChains }: { pageSupportedChains: number[] }) => {
   const contractSellPull = useSellPullContract()
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
 
+  const native = useNativeCurrency()
   const { packages } = useGetPackages()
   const packageItem = useMemo(() => packages?.[viewCard - 1], [packages, viewCard])
   const { min, max } = useMinMaxBuy()
@@ -80,48 +82,70 @@ const Home = ({ pageSupportedChains }: { pageSupportedChains: number[] }) => {
     }
   }
 
-  // Buy now
-  const handleConfirm = async (cbs) => {
-    if (min === undefined || max === undefined) return
-    if (!userInput) {
+  const detectError = (value, cbs) => {
+    if (min === undefined || max === undefined) {
+      setErrorMess('Error!')
+      return
+    }
+    if (totalWasBuy === undefined) {
+      setErrorMess('Error!')
+      return
+    }
+    if (!value) {
       setErrorMess('Please enter amount')
       return
     }
 
-    if (+userInput < min || +userInput > max) {
-      setErrorMess(`Enter input with Min: ${min} and Max: ${maxBalanceCanBuy}`)
+    const nexTotalBuy = totalWasBuy + +value
+    if (nexTotalBuy < min || nexTotalBuy > max) {
+      setErrorMess(`Min: ${min} Max ${maxBalanceCanBuy} ${native?.symbol}`)
       return
     }
-    setErrorMess('')
 
     const balance = formatBigNumber(isBSC ? data?.value : nativeBalance?.data?.value)
-    if (+userInput > +balance) {
-      setErrorMess(`Balance are not enough`)
+    if (+value > +balance) {
+      setErrorMess(`Balance too low`)
       return
     }
 
-    const parseDecimals = new BigNumber(userInput).times(DEFAULT_TOKEN_DECIMAL).toString()
-    const params = {
-      fee: parseDecimals,
-      packageId: viewCard,
-      amount: parseDecimals,
-    }
+    setErrorMess('')
+    cbs?.()
+  }
 
-    const receipt = await fetchWithCatchTxError(() => {
-      return contractSellPull.buyToken(params.packageId, params.amount, {
-        value: params.fee,
+  // Buy now
+  const handleConfirm = (cbs) => {
+    detectError(userInput, async () => {
+      const parseDecimals = new BigNumber(userInput).times(DEFAULT_TOKEN_DECIMAL).toString()
+      const params = {
+        fee: parseDecimals,
+        packageId: viewCard,
+        amount: parseDecimals,
+      }
+
+      const receipt = await fetchWithCatchTxError(() => {
+        return contractSellPull.buyToken(params.packageId, params.amount, {
+          value: params.fee,
+        })
       })
-    })
 
-    if (receipt?.status) {
-      setUserInput('')
-      cbs()
-      fetchHistoryBuyPackages?.()
-      toastSuccess(
-        'Buy success',
-        <ToastDescriptionWithTx txHash={receipt.transactionHash}>Your funds have been success</ToastDescriptionWithTx>,
-      )
-    }
+      if (receipt?.status) {
+        setUserInput('')
+        cbs()
+        fetchHistoryBuyPackages?.()
+        toastSuccess(
+          'Buy success',
+          <ToastDescriptionWithTx txHash={receipt.transactionHash}>
+            Your funds have been success
+          </ToastDescriptionWithTx>,
+        )
+      }
+    })
+  }
+
+  const handleUserInput = (value) => {
+    if (+value > 1e14) return
+    detectError(value, () => null)
+    setUserInput(value)
   }
 
   const userOutput = useMemo(() => {
@@ -145,8 +169,9 @@ const Home = ({ pageSupportedChains }: { pageSupportedChains: number[] }) => {
               viewCard === VIEW_CARD.LOCK ? (
                 <CardContentLockAndLoad
                   max={maxBalanceCanBuy}
+                  native={native}
                   userInput={userInput}
-                  setUserInput={setUserInput}
+                  setUserInput={handleUserInput}
                   errorMess={errorMess}
                   onChangePercent={handleChangePercent}
                 />
@@ -154,7 +179,7 @@ const Home = ({ pageSupportedChains }: { pageSupportedChains: number[] }) => {
                 <CardContentPresale
                   max={maxBalanceCanBuy}
                   userInput={userInput}
-                  setUserInput={setUserInput}
+                  setUserInput={handleUserInput}
                   errorMess={errorMess}
                   onChangePercent={handleChangePercent}
                 />

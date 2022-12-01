@@ -36,6 +36,6 @@
     "react/require-default-props": 0,
     "no-nested-ternary": 0,
     "max-classes-per-file": 0
-    // End temporary rules
+    // End temporary rules,
   }
 }

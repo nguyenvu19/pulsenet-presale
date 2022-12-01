@@ -1,6 +1,6 @@
 import { Flex, Text, Box } from '@pancakeswap/uikit'
+import { NativeCurrency } from '@pancakeswap/sdk'
 import styled from 'styled-components'
-import useNativeCurrency from 'hooks/useNativeCurrency'
 import { ChainLogo } from 'components/Logo/ChainLogo'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import PercentSelectOption from './PercentSelectOption'
@@ -62,15 +62,15 @@ export enum VIEW_CARD {
 
 interface Props {
   max?: number
+  native?: NativeCurrency
   userInput?: string
   setUserInput?: (v: any) => void
   errorMess?: string
   onChangePercent?: (p: number) => void
 }
 
-const CardContentLockAndLoad = ({ max, errorMess, userInput, setUserInput, onChangePercent }: Props) => {
+const CardContentLockAndLoad = ({ max, native, errorMess, userInput, setUserInput, onChangePercent }: Props) => {
   const { chainId } = useActiveWeb3React()
-  const native = useNativeCurrency()
   return (
     <CardContent>
       <Flex p={['0', , '24px']} justifyContent="center" flexDirection="column" alignItems="center">
