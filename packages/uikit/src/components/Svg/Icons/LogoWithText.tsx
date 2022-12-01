@@ -1,8 +1,7 @@
 import React from "react";
 import Svg from "../Svg";
-import { SvgProps } from "../types";
 
-const Logo: React.FC<SvgProps> = ({ ...props }) => {
+const Logo: React.FC<any> = ({ ...props }) => {
   return (
     <Svg viewBox="0 0 303 44" fill="none" {...props}>
       <path
