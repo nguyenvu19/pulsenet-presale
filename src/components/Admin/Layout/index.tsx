@@ -10,8 +10,13 @@ import BreadCrumbs from 'components/BreadCrumbs'
 // import { useGetOwnerStaking, useGetOwnerContract } from 'state/admin/hook'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import ConnectWalletButton from 'components/ConnectWalletButton'
+import { getSellPullAddress } from 'utils/addressHelpers'
+import { useActiveChainId } from 'hooks/useActiveChainId'
+
 import UserMenu from '../../Menu/UserMenu'
 // import TotalBalance from '../../Menu/UserMenu/Totalbalance'
+import { LogoWithTextIcon } from '../../../../packages/uikit/src/components/Svg'
+
 import { useMatchBreakpoints } from '../../../../packages/uikit/src/contexts'
 
 const { Header, Sider, Content } = Layout
@@ -48,9 +53,8 @@ const WAdminLayout = styled.div`
       padding: 0 10px;
     }
 
-    img {
-      max-width: 100%;
-      max-height: 100%;
+    svg {
+      width: 90%;
     }
   }
 
@@ -253,76 +257,67 @@ export const getActiveMenuItem = ({ pathname, menuConfig }: { pathname: string; 
 const items: MenuItemType[] = [
   {
     key: '/admin',
-    label: 'Admin',
+    label: 'Sale Report',
     icon: <HomeOutlined />,
   },
-  {
-    key: '/admin/campaigns',
-    label: 'Campaigns',
-    icon: <GroupOutlined />,
-  },
-  {
-    key: '/admin/pool',
-    label: 'Stake Pool',
-    icon: <DollarOutlined />,
-  },
+  // {
+  //   key: '/admin/campaigns',
+  //   label: 'Campaigns',
+  //   icon: <GroupOutlined />,
+  // },
+  // {
+  //   key: '/admin/pool',
+  //   label: 'Stake Pool',
+  //   icon: <DollarOutlined />,
+  // },
 ]
 
 const AdminLayout = ({ children }: any) => {
   const router = useRouter()
   const { account } = useActiveWeb3React()
-
+  const { chainId } = useActiveChainId()
+  const owner = getSellPullAddress(chainId)
   // const { ownerStake } = useGetOwnerStaking()
   // const { ownerContract } = useGetOwnerContract()
-
-  const [collapsed, setCollapsed] = useState(false)
-
   const { isMobile, isTablet } = useMatchBreakpoints()
   const activeMenuItem = getActiveMenuItem({ menuConfig: items, pathname: router.pathname })
+
   const [isOwner, setIsOwner] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [collapsed, setCollapsed] = useState(false)
 
-  // useEffect(() => {
-  //   const str = router.pathname.split('/')
-  //   switch (str[1]) {
+  useEffect(() => {
+    const str = router.pathname.split('/')
+    switch (str[1]) {
+      case 'admin':
+        if (owner) {
+          setIsOwner(account?.toLowerCase() === owner?.toLowerCase())
+          setLoading(false)
+        }
+        break
 
-  //     case 'admin':
-  //     case 'campaigns':
-  //       if (ownerContract) {
-  //         setIsOwner(account?.toLowerCase() === ownerContract?.toLowerCase())
-  //         setLoading(false)
-  //       }
-  //       break
+      default:
+        break
+    }
+  }, [account, owner, router])
 
-  //     case 'pool':
-  //       if (ownerStake) {
-  //         setIsOwner(account?.toLowerCase() === ownerStake?.toLowerCase())
-  //         setLoading(false)
-  //       }
-  //       break
-
-  //     default:
-  //       break
-  //   }
-  // }, [account, ownerContract, ownerStake, router])
-
-  // if (loading) {
-  //   return (
-  //     <RequireLoginStyled>
-  //       <Spin />
-  //     </RequireLoginStyled>
-  //   )
-  // }
-  // if (!account) {
-  //   return (
-  //     <RequireLoginStyled>
-  //       <ConnectWalletButton />
-  //     </RequireLoginStyled>
-  //   )
-  // }
-  // if (!isOwner) {
-  //   return <RequireLoginStyled>You do not have access to this site</RequireLoginStyled>
-  // }
+  if (loading) {
+    return (
+      <RequireLoginStyled>
+        <Spin />
+      </RequireLoginStyled>
+    )
+  }
+  if (!account) {
+    return (
+      <RequireLoginStyled>
+        <ConnectWalletButton />
+      </RequireLoginStyled>
+    )
+  }
+  if (!isOwner) {
+    return <RequireLoginStyled>You do not have access to this site</RequireLoginStyled>
+  }
   return (
     <WAdminLayout data-theme="light">
       <Layout style={{ minHeight: '100vh' }}>
@@ -334,11 +329,12 @@ const AdminLayout = ({ children }: any) => {
           width={240}
         >
           <div className="logo">
-            <Link href="/admin">
+            {/* <Link href="/admin">
               <a>
                 <img src="/logo-text.png" alt="logo" />
               </a>
-            </Link>
+            </Link> */}
+            <LogoWithTextIcon className="desktop-icon" />
           </div>
 
           <WMenuStyled>
@@ -367,12 +363,11 @@ const AdminLayout = ({ children }: any) => {
               })}
             </div>
 
-            {/* <div className="header-admin-right">
+            <div className="header-admin-right">
               <Space size={16}>
-                <TotalBalance />
-                <UserMenu />
+                <ConnectWalletButton />
               </Space>
-            </div> */}
+            </div>
           </Header>
 
           {/* Content child */}

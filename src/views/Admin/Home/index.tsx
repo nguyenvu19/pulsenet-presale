@@ -1,16 +1,19 @@
 import { Button, Checkbox, Col, DatePicker, Form, Input, Row, Table, Space, Select } from 'antd'
 import type { CheckboxChangeEvent } from 'antd/es/checkbox'
+import { Link } from '@pancakeswap/uikit'
 
 import React, { useMemo, useState } from 'react'
+import { useRouter } from 'next/router'
+
+import styled from 'styled-components'
 
 import { formatDate } from 'helpers'
 import { formatCode } from 'helpers/CommonHelper'
-
-import { useRouter } from 'next/router'
-import styled from 'styled-components'
+import { ChainId } from '@pancakeswap/sdk'
 
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { getBlockExploreLink } from 'utils'
+import { getBlockExploreLink, toLocaleString } from 'utils'
+import { APP_ENV } from 'config'
 import { useClaimBuyPackages } from '../hook/useHistoryBuyPackages'
 
 const { RangePicker } = DatePicker
@@ -149,6 +152,7 @@ const WAdminHomePage = styled.div`
 const AdminHomePage: React.FC = () => {
   const [chainId, setChainId] = useState()
 
+  console.log(chainId)
   const [search, setSearch] = useState({})
 
   const [form] = Form.useForm()
@@ -159,11 +163,16 @@ const AdminHomePage: React.FC = () => {
       title: 'Package ID',
       dataIndex: 'packageId',
     },
+
     {
-      title: 'ID',
-      dataIndex: 'id',
+      title: 'User Address',
+      dataIndex: 'userAddress',
       render: (data) => {
-        return formatCode(data, 5, 5)
+        return (
+          <Link external href={getBlockExploreLink(data, 'address', chainId)} target="_blank" rel="noreferrer">
+            {formatCode(data, 5, 5)}
+          </Link>
+        )
       },
     },
 
@@ -181,6 +190,18 @@ const AdminHomePage: React.FC = () => {
     },
 
     {
+      title: 'TxH',
+      dataIndex: 'transactionHash',
+      render: (data) => {
+        return (
+          <Link href={getBlockExploreLink(data, 'transaction', chainId)} target="_blank" rel="noreferrer">
+            {formatCode(data, 5, 5)}
+          </Link>
+        )
+      },
+    },
+
+    {
       title: 'Create Time',
       dataIndex: 'createdTime',
       render: (record) => {
@@ -191,85 +212,22 @@ const AdminHomePage: React.FC = () => {
         )
       },
     },
-
-    {
-      title: 'TxH',
-      dataIndex: 'transactionHash',
-      render: (data) => {
-        return (
-          <a href={getBlockExploreLink(data, 'transaction', chainId)} target="_blank" rel="noreferrer">
-            {formatCode(data, 5, 5)}
-          </a>
-        )
-      },
-    },
-
-    {
-      title: 'User Address',
-      dataIndex: 'userAddress',
-      render: (data) => {
-        return (
-          <a href={getBlockExploreLink(data, 'address', chainId)} target="_blank" rel="noreferrer">
-            {formatCode(data, 5, 5)}
-          </a>
-        )
-      },
-    },
-
-    // {
-    //   title: 'Transaction Hash',
-    //   dataIndex: 'transactionHash',
-    // render: (data) => {
-    //   return (
-    //     <a href={getBlockExploreLink(data, 'transaction', chainId)} target="_blank" rel="noreferrer">
-    //       {formatCode(data, 5, 5)}
-    //     </a>
-    //   )
-    // },
-    // },
-
-    // {
-    //   title: 'Create time',
-    //   dataIndex: 'createdTime',
-    // render: (record) => {
-    //   return (
-    //     <div>
-    //       <p>{formatDate(record * 1000, 'yyyy-MM-DD')}</p>
-    //     </div>
-    //   )
-    // },
-    // },
   ]
 
-  // Get data from deposit history with graph
+  // Get data from buyPackages with graph
   const { buyPackages } = useClaimBuyPackages(search, chainId)
   const dataBuyPackages = buyPackages.dataReport
 
-  // const depositHistoriesClone: any[] = useMemo(
-  //   () =>
-  //     depositHistories
-  //       ?.map((campaign) => ({
-  //         ...campaign,
-  //         amount: (Number(campaign.amount) / 1e18).toLocaleString(),
-  //       }))
-  //       .filter((item: any) => {
-  //         if (searchAddress !== '') {
-  //           return item.userAddress.includes(searchAddress)
-  //         }
-
-  //         if (searchPlan !== '') {
-  //           return String(item.planId).includes(searchPlan)
-  //         }
-
-  //         if (searchTxH !== '') {
-  //           return item.transactionHash.includes(searchTxH)
-  //         }
-
-  //         return item
-  //       }),
-
-  //   [depositHistories, searchAddress, searchPlan, searchTxH],
-  // )
+  const dataBuyPackagesClone: any[] = useMemo(
+    () =>
+      dataBuyPackages
+        ?.map((campaign) => ({
+          ...campaign,
+          amountToken: Number(campaign.amountToken).toLocaleString(),
+        }))
+        .sort((a, b) => Number(a.packageId) - Number(b.packageId)),
+    [dataBuyPackages],
+  )
 
   const handleSearch = (e) => {
     const value = e.target.value.toLowerCase()
@@ -290,30 +248,47 @@ const AdminHomePage: React.FC = () => {
       </div>
 
       <div className="history-content">
-        <div className="history-content-head">
-          <Select
-            showSearch
-            placeholder="Select Chain"
-            optionFilterProp="children"
-            onChange={handleSelectChain}
-            filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
-            options={[
-              {
-                value: '1',
-                label: 'ETH',
-              },
-              {
-                value: '56',
-                label: 'BSC',
-              },
-            ]}
-          />
-        </div>
-
         <div className="history-content-middle">
-          <Form form={form}>
-            <Row gutter={8}>
-              <Col span={8}>
+          <Form form={form} layout="vertical">
+            <Row gutter={[8, 8]}>
+              <Col span={6}>
+                <Form.Item label="Chain">
+                  <Select
+                    showSearch
+                    placeholder="Select Chain"
+                    optionFilterProp="children"
+                    onChange={handleSelectChain}
+                    filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
+                    options={
+                      APP_ENV === 'development'
+                        ? [
+                            {
+                              // dev =5
+                              value: ChainId.GOERLI,
+                              label: 'ETH',
+                            },
+                            {
+                              // dev = 97
+                              value: ChainId.BSC_TESTNET,
+                              label: 'BSC',
+                            },
+                          ]
+                        : [
+                            {
+                              value: ChainId.ETHEREUM,
+                              label: 'ETH',
+                            },
+                            {
+                              value: ChainId.BSC,
+                              label: 'BSC',
+                            },
+                          ]
+                    }
+                  />
+                </Form.Item>
+              </Col>
+
+              <Col span={6}>
                 <Form.Item label="Package ID">
                   <Input
                     size="middle"
@@ -325,7 +300,7 @@ const AdminHomePage: React.FC = () => {
                 </Form.Item>
               </Col>
 
-              <Col span={8}>
+              <Col span={6}>
                 <Form.Item label="User Address">
                   <Input
                     size="middle"
@@ -337,7 +312,7 @@ const AdminHomePage: React.FC = () => {
                 </Form.Item>
               </Col>
 
-              <Col span={8}>
+              <Col span={6}>
                 <Form.Item label="TxH">
                   <Input
                     size="middle"
@@ -351,21 +326,10 @@ const AdminHomePage: React.FC = () => {
             </Row>
           </Form>
         </div>
-        <div className="history-content-middle">
-          <Table columns={column} dataSource={dataBuyPackages} scroll={{ x: 1200 }} />
-        </div>
 
-        {/* <div className="history-content-middle">
-          {selected === 'Deposit' ? (
-            <Table
-              columns={columnsDeposit}
-              // dataSource={dateRange && dateRange[0] ? depositHistoriesByDateClone : depositHistoriesClone}
-              scroll={{ x: 1200 }}
-            />
-          ) : (
-            // <Table columns={columnsWithdraw} dataSource={withdrawHistoriesClone} scroll={{ x: 1000 }} />
-          )}
-        </div> */}
+        <div className="history-content-bottom">
+          <Table columns={column} dataSource={dataBuyPackagesClone} scroll={{ x: 1200 }} />
+        </div>
       </div>
     </WAdminHomePage>
   )
