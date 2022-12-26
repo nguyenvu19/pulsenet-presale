@@ -15,4 +15,8 @@ declare global {
       switchNetwork?: (networkId: string) => Promise<string>
     } & Ethereum
   }
+
+  interface Date {
+    addDays: (date: any, count: number) => void
+  }
 }
