@@ -79,3 +79,7 @@ export function isTokenOnList(defaultTokens: TokenAddressMap, currency?: Currenc
   if (currency?.isNative) return true
   return Boolean(currency?.isToken && defaultTokens[currency.chainId]?.[currency.address])
 }
+
+export function toLocaleString(x) {
+  return x.toLocaleString('fullwide', { useGrouping: false })
+}

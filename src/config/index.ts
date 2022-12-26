@@ -1,5 +1,7 @@
 import { getFullDecimalMultiplier } from 'utils/getFullDecimalMultiplier'
 
+export const APP_ENV = process.env.NEXT_PUBLIC_NODE_ENV
+
 export const BSC_BLOCK_TIME = 3
 
 // CAKE_PER_BLOCK details
