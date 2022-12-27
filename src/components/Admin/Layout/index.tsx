@@ -300,23 +300,23 @@ const AdminLayout = ({ children }: any) => {
     }
   }, [account, owner, router])
 
-  // if (loading) {
-  //   return (
-  //     <RequireLoginStyled>
-  //       <Spin />
-  //     </RequireLoginStyled>
-  //   )
-  // }
-  // if (!account) {
-  //   return (
-  //     <RequireLoginStyled>
-  //       <ConnectWalletButton />
-  //     </RequireLoginStyled>
-  //   )
-  // }
-  // if (!isOwner) {
-  //   return <RequireLoginStyled>You do not have access to this site</RequireLoginStyled>
-  // }
+  if (loading) {
+    return (
+      <RequireLoginStyled>
+        <Spin />
+      </RequireLoginStyled>
+    )
+  }
+  if (!account) {
+    return (
+      <RequireLoginStyled>
+        <ConnectWalletButton />
+      </RequireLoginStyled>
+    )
+  }
+  if (!isOwner) {
+    return <RequireLoginStyled>You do not have access to this site</RequireLoginStyled>
+  }
   return (
     <WAdminLayout data-theme="light">
       <Layout style={{ minHeight: '100vh' }}>
@@ -363,9 +363,7 @@ const AdminLayout = ({ children }: any) => {
             </div>
 
             <div className="header-admin-right">
-              <Space size={16}>
-                <ConnectWalletButton />
-              </Space>
+              <Space size={16}>{/* <ConnectWalletButton /> */}</Space>
             </div>
           </Header>
 

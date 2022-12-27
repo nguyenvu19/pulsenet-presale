@@ -1,19 +1,19 @@
-import { Button, Checkbox, Col, DatePicker, Form, Input, Row, Table, Space, Select } from 'antd'
-import type { CheckboxChangeEvent } from 'antd/es/checkbox'
 import { Link } from '@pancakeswap/uikit'
+import { Button, Col, DatePicker, Form, Input, Row, Select, Table } from 'antd'
 
-import React, { useMemo, useState } from 'react'
 import { useRouter } from 'next/router'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 
 import styled from 'styled-components'
 
+import ReactHTMLTableToExcel from 'react-html-table-to-excel'
+
+import { ChainId } from '@pancakeswap/sdk'
 import { formatDate } from 'helpers'
 import { formatCode } from 'helpers/CommonHelper'
-import { ChainId } from '@pancakeswap/sdk'
 
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { getBlockExploreLink, toLocaleString } from 'utils'
 import { APP_ENV } from 'config'
+import { getBlockExploreLink } from 'utils'
 import { useClaimBuyPackages } from '../hook/useHistoryBuyPackages'
 
 const { RangePicker } = DatePicker
@@ -147,6 +147,25 @@ const WAdminHomePage = styled.div`
       }
     }
   }
+
+  .table-wrapper {
+    #table-xls-button {
+      border-color: rgb(41, 190, 84);
+      background: rgb(41, 190, 84);
+      text-shadow: rgb(0 0 0 / 12%) 0px -1px 0px;
+      box-shadow: rgb(0 0 0 / 4%) 0px 2px;
+      color: rgb(255, 255, 255) !important;
+      padding: 8px 20px;
+      min-height: 38px;
+      max-height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+      cursor: pointer;
+    }
+  }
 `
 
 const AdminHomePage: React.FC = () => {
@@ -156,6 +175,12 @@ const AdminHomePage: React.FC = () => {
 
   const [form] = Form.useForm()
   const router = useRouter()
+
+  const tableRef = useRef(null)
+  useEffect(() => {
+    const table = tableRef.current.querySelector('table')
+    table.setAttribute('id', 'table-to-xls')
+  }, [tableRef])
 
   const column = [
     {
@@ -327,7 +352,17 @@ const AdminHomePage: React.FC = () => {
         </div>
 
         <div className="history-content-bottom">
-          <Table columns={column} dataSource={dataBuyPackagesClone} scroll={{ x: 1200 }} />
+          <div className="table-wrapper" ref={tableRef}>
+            <ReactHTMLTableToExcel
+              id="table-xls-button"
+              className="download-table-xls-button"
+              table="table-to-xls"
+              sheet="Sales report"
+              filename="Sale Report"
+              buttonText="Export CSV"
+            />
+            <Table columns={column} dataSource={dataBuyPackagesClone} scroll={{ x: 1200 }} />
+          </div>
         </div>
       </div>
     </WAdminHomePage>
