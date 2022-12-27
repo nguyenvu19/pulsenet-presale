@@ -7,14 +7,13 @@ import { Layout, Menu, MenuProps, Space, Spin } from 'antd'
 import styled, { keyframes } from 'styled-components'
 import BreadCrumbs from 'components/BreadCrumbs'
 
-// import { useGetOwnerStaking, useGetOwnerContract } from 'state/admin/hook'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { getSellPullAddress } from 'utils/addressHelpers'
 import { useActiveChainId } from 'hooks/useActiveChainId'
+import { useGetOwner } from 'state/admin/hook'
 
 import UserMenu from '../../Menu/UserMenu'
-// import TotalBalance from '../../Menu/UserMenu/Totalbalance'
 import { LogoWithTextIcon } from '../../../../packages/uikit/src/components/Svg'
 
 import { useMatchBreakpoints } from '../../../../packages/uikit/src/contexts'
@@ -276,9 +275,9 @@ const AdminLayout = ({ children }: any) => {
   const router = useRouter()
   const { account } = useActiveWeb3React()
   const { chainId } = useActiveChainId()
-  const owner = getSellPullAddress(chainId)
-  // const { ownerStake } = useGetOwnerStaking()
-  // const { ownerContract } = useGetOwnerContract()
+  // const owner = getSellPullAddress(chainId)
+  const { owner } = useGetOwner()
+
   const { isMobile, isTablet } = useMatchBreakpoints()
   const activeMenuItem = getActiveMenuItem({ menuConfig: items, pathname: router.pathname })
 
@@ -301,23 +300,23 @@ const AdminLayout = ({ children }: any) => {
     }
   }, [account, owner, router])
 
-  if (loading) {
-    return (
-      <RequireLoginStyled>
-        <Spin />
-      </RequireLoginStyled>
-    )
-  }
-  if (!account) {
-    return (
-      <RequireLoginStyled>
-        <ConnectWalletButton />
-      </RequireLoginStyled>
-    )
-  }
-  if (!isOwner) {
-    return <RequireLoginStyled>You do not have access to this site</RequireLoginStyled>
-  }
+  // if (loading) {
+  //   return (
+  //     <RequireLoginStyled>
+  //       <Spin />
+  //     </RequireLoginStyled>
+  //   )
+  // }
+  // if (!account) {
+  //   return (
+  //     <RequireLoginStyled>
+  //       <ConnectWalletButton />
+  //     </RequireLoginStyled>
+  //   )
+  // }
+  // if (!isOwner) {
+  //   return <RequireLoginStyled>You do not have access to this site</RequireLoginStyled>
+  // }
   return (
     <WAdminLayout data-theme="light">
       <Layout style={{ minHeight: '100vh' }}>

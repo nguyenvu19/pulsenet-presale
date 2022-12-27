@@ -152,7 +152,6 @@ const WAdminHomePage = styled.div`
 const AdminHomePage: React.FC = () => {
   const [chainId, setChainId] = useState()
 
-  console.log(chainId)
   const [search, setSearch] = useState({})
 
   const [form] = Form.useForm()
