@@ -32,6 +32,17 @@ const fetchDataFromGraph = async (
       ${packageId ? `packageId: "${packageId}"` : ''}
       ${userAddress ? `userAddress: "${userAddress}"` : ''}
       ${transactionHash ? `transactionHash: "${transactionHash}"` : ''}
+    },
+    ${orderBy ? `orderBy: ${+orderBy},` : ''}
+    orderDirection: asc
+  `
+
+  const whereStringDate = `
+    ${total ? `first: ${+total},` : ''}
+    where: {
+      ${packageId ? `packageId: "${packageId}"` : ''}
+      ${userAddress ? `userAddress: "${userAddress}"` : ''}
+      ${transactionHash ? `transactionHash: "${transactionHash}"` : ''}
       ${createdTimeFrom ? `createdTime_gte: "${Number(createdTimeFrom) - currentTime}"` : ''}
       ${createdTimeTo ? `createdTime_lte: "${Number(createdTimeTo) + (86400 - currentTime)}"` : ''}
     },
@@ -42,7 +53,7 @@ const fetchDataFromGraph = async (
     const query = !createdTimeFrom
       ? gql`
           query buyPackages {
-            buyPackages {
+            buyPackages(${whereString}) {
               id
               amountBuy
               amountToken
@@ -55,7 +66,7 @@ const fetchDataFromGraph = async (
         `
       : gql` 
       query buyPackages { 
-        buyPackages(${whereString}) {
+        buyPackages(${whereStringDate}) {
           id
           amountBuy
           amountToken

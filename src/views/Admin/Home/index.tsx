@@ -271,7 +271,6 @@ const AdminHomePage: React.FC = () => {
   }
 
   const handleSearchDate = (e) => {
-    console.log(e?.map((time) => Date.parse(time) / 1000))
     setDateRange(e?.map((time) => Date.parse(time) / 1000))
   }
 
