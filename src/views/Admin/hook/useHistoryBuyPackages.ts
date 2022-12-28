@@ -16,19 +16,44 @@ export interface BuyPackagesQuery {
 const fetchDataFromGraph = async (
   { total, packageId, userAddress, transactionHash, orderBy }: BuyPackagesQuery,
   chainId,
+  createdTimeFrom?,
+  createdTimeTo?,
 ) => {
+  console.log(createdTimeFrom, createdTimeTo)
+
+  const currentTimeHours = new Date().getHours()
+  const currentTimeMinute = new Date().getMinutes()
+  const currentTimeSecond = new Date().getSeconds()
+  const currentTime = currentTimeHours * 60 * 60 + currentTimeMinute * 60 + currentTimeSecond
+
   const whereString = `
     ${total ? `first: ${+total},` : ''}
     where: {
       ${packageId ? `packageId: "${packageId}"` : ''}
       ${userAddress ? `userAddress: "${userAddress}"` : ''}
       ${transactionHash ? `transactionHash: "${transactionHash}"` : ''}
+      ${createdTimeFrom ? `createdTime_gte: "${Number(createdTimeFrom) - currentTime}"` : ''}
+      ${createdTimeTo ? `createdTime_lte: "${Number(createdTimeTo) + (86400 - currentTime)}"` : ''}
     },
     ${orderBy ? `orderBy: ${+orderBy},` : ''}
     orderDirection: asc
   `
   try {
-    const query = gql` 
+    const query = !createdTimeFrom
+      ? gql`
+          query buyPackages {
+            buyPackages {
+              id
+              amountBuy
+              amountToken
+              createdTime
+              packageId
+              transactionHash
+              userAddress
+            }
+          }
+        `
+      : gql` 
       query buyPackages { 
         buyPackages(${whereString}) {
           id
@@ -56,6 +81,8 @@ interface ResponseClaimBuyPackages {
 export const useClaimBuyPackages = (
   packages: object,
   chainId: number,
+  createdTimeFrom: string,
+  createdTimeTo: string,
 ): {
   buyPackages: ResponseClaimBuyPackages
   fetchBuyPackages: () => void
@@ -65,14 +92,14 @@ export const useClaimBuyPackages = (
   })
 
   const fetchBuyPackages = useCallback(async () => {
-    const { data, status } = await fetchDataFromGraph(packages, chainId)
+    const { data, status } = await fetchDataFromGraph(packages, chainId, createdTimeFrom, createdTimeTo)
 
     if (status) {
       setBuyPackages({
         dataReport: data || null,
       })
     }
-  }, [chainId, packages])
+  }, [chainId, createdTimeFrom, createdTimeTo, packages])
 
   useEffect(() => {
     fetchBuyPackages()
@@ -106,7 +133,7 @@ export const useHistoryBuyPackages = (
   }, [packageId])
 
   const fetchData = useCallback(async () => {
-    if (params.userAddress && params.packageId) {
+    if (params.userAddress || params.packageId || params.transactionHash) {
       const { data, status } = await fetchDataFromGraph(params, chainId)
       if (status) {
         setResult(data)

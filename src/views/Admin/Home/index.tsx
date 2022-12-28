@@ -1,5 +1,5 @@
 import { Link } from '@pancakeswap/uikit'
-import { Button, Col, DatePicker, Form, Input, Row, Select, Table } from 'antd'
+import { Button, Col, DatePicker, Form, Input, Row, Select, Table, Space } from 'antd'
 
 import { useRouter } from 'next/router'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
@@ -169,9 +169,10 @@ const WAdminHomePage = styled.div`
 `
 
 const AdminHomePage: React.FC = () => {
-  const [chainId, setChainId] = useState()
+  const [chainId, setChainId] = useState(5)
 
   const [search, setSearch] = useState({})
+  const [dateRange, setDateRange] = useState([])
 
   const [form] = Form.useForm()
   const router = useRouter()
@@ -239,7 +240,12 @@ const AdminHomePage: React.FC = () => {
   ]
 
   // Get data from buyPackages with graph
-  const { buyPackages } = useClaimBuyPackages(search, chainId)
+  const { buyPackages } = useClaimBuyPackages(
+    search,
+    chainId,
+    dateRange && dateRange[0] ? String(dateRange[0]) : '',
+    dateRange && dateRange[1] ? String(dateRange[1]) : '',
+  )
   const dataBuyPackages = buyPackages.dataReport
 
   const dataBuyPackagesClone: any[] = useMemo(
@@ -248,6 +254,8 @@ const AdminHomePage: React.FC = () => {
         ?.map((campaign) => ({
           ...campaign,
           amountToken: Number(campaign.amountToken).toLocaleString(),
+          userAddress: campaign.userAddress.toLowerCase(),
+          transactionHash: campaign.transactionHash.toLowerCase(),
         }))
         .sort((a, b) => Number(a.packageId) - Number(b.packageId)),
     [dataBuyPackages],
@@ -260,6 +268,11 @@ const AdminHomePage: React.FC = () => {
 
   const handleSelectChain = (value) => {
     setChainId(value)
+  }
+
+  const handleSearchDate = (e) => {
+    console.log(e?.map((time) => Date.parse(time) / 1000))
+    setDateRange(e?.map((time) => Date.parse(time) / 1000))
   }
 
   return (
@@ -341,13 +354,19 @@ const AdminHomePage: React.FC = () => {
                   <Input
                     size="middle"
                     autoComplete="true"
-                    name="txh"
+                    name="transactionHash"
                     onChange={handleSearch}
                     placeholder="Transaction hash"
                   />
                 </Form.Item>
               </Col>
             </Row>
+
+            <Form.Item name="Date" label="Date">
+              <Space direction="vertical" size={12}>
+                <RangePicker format="YYYY/MM/DD" onChange={handleSearchDate} />
+              </Space>
+            </Form.Item>
           </Form>
         </div>
 
