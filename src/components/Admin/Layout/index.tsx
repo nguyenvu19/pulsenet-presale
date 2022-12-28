@@ -299,23 +299,23 @@ const AdminLayout = ({ children }: any) => {
     }
   }, [account, owner, router])
 
-  // if (loading) {
-  //   return (
-  //     <RequireLoginStyled>
-  //       <Spin />
-  //     </RequireLoginStyled>
-  //   )
-  // }
-  // if (!account) {
-  //   return (
-  //     <RequireLoginStyled>
-  //       <ConnectWalletButton />
-  //     </RequireLoginStyled>
-  //   )
-  // }
-  // if (!isOwner) {
-  //   return <RequireLoginStyled>You do not have access to this site</RequireLoginStyled>
-  // }
+  if (loading) {
+    return (
+      <RequireLoginStyled>
+        <Spin />
+      </RequireLoginStyled>
+    )
+  }
+  if (!account) {
+    return (
+      <RequireLoginStyled>
+        <ConnectWalletButton />
+      </RequireLoginStyled>
+    )
+  }
+  if (!isOwner) {
+    return <RequireLoginStyled>You do not have access to this site</RequireLoginStyled>
+  }
 
   return (
     <WAdminLayout>
