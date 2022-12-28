@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React, { ReactElement, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { DollarOutlined, GroupOutlined, HomeOutlined, MenuOutlined } from '@ant-design/icons'
-import { Layout, Menu, MenuProps, Space, Spin } from 'antd'
+import { Button, Layout, Menu, MenuProps, Space, Spin } from 'antd'
 import styled, { keyframes } from 'styled-components'
 import BreadCrumbs from 'components/BreadCrumbs'
 
@@ -127,7 +127,6 @@ const WAdminLayout = styled.div`
 
   .ant-layout-content {
     padding: 20px 20px 0px !important;
-    margin: 0 0 -32px 0 !important;
 
     .ant-breadcrumb {
       ol {
@@ -146,7 +145,7 @@ const WAdminLayout = styled.div`
     animation: ${turnLeft} 0.2s linear forwards;
 
     ${({ theme }) => theme.mediaQueries.sm} {
-      width: 80px;
+      width: 80px !important;
       min-width: 80px !important;
       max-width: 80px !important;
       flex: 0 0 80px !important;
@@ -193,9 +192,8 @@ const RequireLoginStyled = styled.div`
 `
 const WMenuStyled = styled.div`
   list-style: none;
-
+  height: calc(100% - 70px);
   background-color: #2d3446;
-  height: 100%;
   padding: 55px 0;
 
   ${({ theme }) => theme.mediaQueries.sm} {
@@ -234,11 +232,12 @@ const WMenuStyled = styled.div`
       }
 
       p {
-        margin-left: 22px;
+        margin-left: 15px;
       }
     }
   }
 `
+const WLogo = styled.div``
 
 interface MenuItemType {
   key: string
@@ -300,26 +299,27 @@ const AdminLayout = ({ children }: any) => {
     }
   }, [account, owner, router])
 
-  if (loading) {
-    return (
-      <RequireLoginStyled>
-        <Spin />
-      </RequireLoginStyled>
-    )
-  }
-  if (!account) {
-    return (
-      <RequireLoginStyled>
-        <ConnectWalletButton />
-      </RequireLoginStyled>
-    )
-  }
-  if (!isOwner) {
-    return <RequireLoginStyled>You do not have access to this site</RequireLoginStyled>
-  }
+  // if (loading) {
+  //   return (
+  //     <RequireLoginStyled>
+  //       <Spin />
+  //     </RequireLoginStyled>
+  //   )
+  // }
+  // if (!account) {
+  //   return (
+  //     <RequireLoginStyled>
+  //       <ConnectWalletButton />
+  //     </RequireLoginStyled>
+  //   )
+  // }
+  // if (!isOwner) {
+  //   return <RequireLoginStyled>You do not have access to this site</RequireLoginStyled>
+  // }
+
   return (
-    <WAdminLayout data-theme="light">
-      <Layout style={{ minHeight: '100vh' }}>
+    <WAdminLayout>
+      <Layout>
         <Sider
           trigger={null}
           collapsible
@@ -327,14 +327,9 @@ const AdminLayout = ({ children }: any) => {
           onCollapse={(value) => setCollapsed(value)}
           width={240}
         >
-          <div className="logo">
-            {/* <Link href="/admin">
-              <a>
-                <img src="/logo-text.png" alt="logo" />
-              </a>
-            </Link> */}
+          <WLogo className="logo" onClick={() => router.push('/admin')}>
             <LogoWithTextIcon className="desktop-icon" />
-          </div>
+          </WLogo>
 
           <WMenuStyled>
             {items.map((item) => {

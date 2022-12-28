@@ -1,5 +1,5 @@
 import { Link } from '@pancakeswap/uikit'
-import { Button, Col, DatePicker, Form, Input, Row, Select, Table, Space } from 'antd'
+import { Col, DatePicker, Form, Input, Row, Select, Space, Table } from 'antd'
 
 import { useRouter } from 'next/router'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
@@ -23,8 +23,8 @@ const WAdminHomePage = styled.div`
   padding: 20px;
   background-color: rgb(255, 255, 255);
   border: 1px solid rgb(233, 233, 233);
-  height: 100%;
   margin-top: 10px;
+  height: 100vh;
 
   ${({ theme }) => theme.mediaQueries.sm} {
     padding: 35px;
@@ -165,7 +165,16 @@ const WAdminHomePage = styled.div`
       box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
       cursor: pointer;
     }
+
+    a {
+      font-weight: normal;
+    }
   }
+`
+
+const WExportCsv = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `
 
 const AdminHomePage: React.FC = () => {
@@ -278,9 +287,6 @@ const AdminHomePage: React.FC = () => {
     <WAdminHomePage>
       <div className="zodi-control-page">
         <h1>Sale Report</h1>
-        <Button type="primary" size="large" onClick={() => router.back()}>
-          Back
-        </Button>
       </div>
 
       <div className="history-content">
@@ -291,7 +297,7 @@ const AdminHomePage: React.FC = () => {
                 <Form.Item label="Chain">
                   <Select
                     showSearch
-                    placeholder="Select Chain"
+                    placeholder="ETH"
                     optionFilterProp="children"
                     onChange={handleSelectChain}
                     filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
@@ -371,15 +377,22 @@ const AdminHomePage: React.FC = () => {
 
         <div className="history-content-bottom">
           <div className="table-wrapper" ref={tableRef}>
-            <ReactHTMLTableToExcel
-              id="table-xls-button"
-              className="download-table-xls-button"
-              table="table-to-xls"
-              sheet="Sales report"
-              filename="Sale Report"
-              buttonText="Export CSV"
+            <WExportCsv>
+              <ReactHTMLTableToExcel
+                id="table-xls-button"
+                className="download-table-xls-button"
+                table="table-to-xls"
+                sheet="Sales report"
+                filename="Sale Report"
+                buttonText="Export CSV"
+              />
+            </WExportCsv>
+            <Table
+              columns={column}
+              dataSource={dataBuyPackagesClone}
+              scroll={{ x: 600 }}
+              pagination={{ defaultPageSize: 10, showSizeChanger: true, pageSizeOptions: ['10', '20', '30'] }}
             />
-            <Table columns={column} dataSource={dataBuyPackagesClone} scroll={{ x: 1200 }} />
           </div>
         </div>
       </div>

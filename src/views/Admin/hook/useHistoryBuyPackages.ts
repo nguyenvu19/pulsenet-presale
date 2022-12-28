@@ -19,8 +19,6 @@ const fetchDataFromGraph = async (
   createdTimeFrom?,
   createdTimeTo?,
 ) => {
-  console.log(createdTimeFrom, createdTimeTo)
-
   const currentTimeHours = new Date().getHours()
   const currentTimeMinute = new Date().getMinutes()
   const currentTimeSecond = new Date().getSeconds()
