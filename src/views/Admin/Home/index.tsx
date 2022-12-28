@@ -24,7 +24,6 @@ const WAdminHomePage = styled.div`
   background-color: rgb(255, 255, 255);
   border: 1px solid rgb(233, 233, 233);
   margin-top: 10px;
-  height: 100vh;
 
   ${({ theme }) => theme.mediaQueries.sm} {
     padding: 35px;
@@ -266,7 +265,7 @@ const AdminHomePage: React.FC = () => {
           userAddress: campaign.userAddress.toLowerCase(),
           transactionHash: campaign.transactionHash.toLowerCase(),
         }))
-        .sort((a, b) => Number(a.packageId) - Number(b.packageId)),
+        .sort((a, b) => Number(a.createdTime) - Number(b.createdTime)),
     [dataBuyPackages],
   )
 
@@ -391,7 +390,7 @@ const AdminHomePage: React.FC = () => {
               columns={column}
               dataSource={dataBuyPackagesClone}
               scroll={{ x: 600 }}
-              pagination={{ defaultPageSize: 10, showSizeChanger: true, pageSizeOptions: ['10', '20', '30'] }}
+              pagination={{ defaultPageSize: 100, showSizeChanger: true, pageSizeOptions: ['100', '200', '300'] }}
             />
           </div>
         </div>
