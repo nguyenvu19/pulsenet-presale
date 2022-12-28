@@ -266,7 +266,7 @@ const AdminHomePage: React.FC = () => {
           userAddress: campaign.userAddress.toLowerCase(),
           transactionHash: campaign.transactionHash.toLowerCase(),
         }))
-        .sort((a, b) => Number(a.createdTime) - Number(b.createdTime)),
+        .sort((a, b) => Number(b.createdTime) - Number(a.createdTime)),
     [dataBuyPackages],
   )
 
