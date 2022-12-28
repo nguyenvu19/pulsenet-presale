@@ -24,6 +24,7 @@ const WAdminHomePage = styled.div`
   background-color: rgb(255, 255, 255);
   border: 1px solid rgb(233, 233, 233);
   margin-top: 10px;
+  min-height: 100vh;
 
   ${({ theme }) => theme.mediaQueries.sm} {
     padding: 35px;
