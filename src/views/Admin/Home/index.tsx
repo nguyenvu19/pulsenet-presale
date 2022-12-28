@@ -72,7 +72,7 @@ const WAdminHomePage = styled.div`
   }
 
   .anticon {
-    margin: 0;
+    margin: 0 !important;
   }
 
   .ant-form {
@@ -391,7 +391,7 @@ const AdminHomePage: React.FC = () => {
               columns={column}
               dataSource={dataBuyPackagesClone}
               scroll={{ x: 600 }}
-              pagination={{ defaultPageSize: 100, showSizeChanger: true, pageSizeOptions: ['100', '200', '300'] }}
+              pagination={{ defaultPageSize: 10, showSizeChanger: true, pageSizeOptions: ['10', '30', '100'] }}
             />
           </div>
         </div>
